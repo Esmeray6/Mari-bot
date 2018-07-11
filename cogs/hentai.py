@@ -19,9 +19,9 @@ class Hentai:
                     async with session.get("https://api.computerfreaker.cf/v1/hentai") as r:
                         original = await r.json()
                         pic = original["url"]
-                        embed = discord.Embed(description = "[Link]({})".format(pic), colorr = author.color)
+                        embed = discord.Embed(description = "[Link]({})".format(pic), color = author.color)
                         embed.set_image(url = pic)
-                        await ctx.send(content=author.mention, embed = embed)
+                        await ctx.send(content = author.mention, embed = embed)
             else:
                 await ctx.send("This channel is not marked as NSFW.")
         except Exception as e:
