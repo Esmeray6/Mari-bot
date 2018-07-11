@@ -36,7 +36,7 @@ async def on_command_error(ctx, error):
     elif isinstance(error, commands.BotMissingPermissions):
         if error.missing_perms:
             await ctx.send("The bot is missing following permissions:\n" + '\n'.join(perm for perm in error.missing_perms).replace('_', ' ').title())
-    else:
+    elif not isinstance(error, commands.CommandNotFound):
         print('Ignoring exception in command {}:'.format(ctx.command), file=sys.stderr)
         traceback.print_exception(type(error), error, error.__traceback__, file=sys.stderr)
         await ctx.send('Ignoring exception in command `{}`: `{}`'.format(ctx.command, error))
