@@ -58,7 +58,7 @@ async def on_message(message):
         else:
             await bot.process_commands(message)
 
-with open(path) as settings:
+with open(path, 'r') as settings:
     sets = json.load(settings)
     token = sets["token"]
 bot.run(token, bot=True, reconnect=True)
