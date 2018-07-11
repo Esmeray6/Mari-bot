@@ -3,8 +3,8 @@ from discord.ext import commands
 import aiohttp
 
 class Hentai:
-    # def __init__(self, bot):
-    #     self.bot = bot
+    def __init__(self, bot):
+        self.bot = bot
 
     @commands.command()
     @commands.guild_only()
