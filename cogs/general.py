@@ -1,6 +1,8 @@
 import discord
 from discord.ext import commands
 import datetime
+import psutil
+import os
 
 class General:
     def __init__(self, bot):
@@ -56,24 +58,22 @@ class General:
         owner = app.owner
         author = ctx.author
         uptime_time = self.get_bot_uptime()
-        botid = int(self.bot.user.id)
         support_stuff = '[Support server](https://discord.gg/G5PsTEz)\n[Patreon](https://www.patreon.com/shivaco)'
         servers = len(self.bot.guilds)
+        process = psutil.Process(os.getpid())
+        mem = round(process.memory_info()[0] / float(2 ** 20), 2)
         if ctx.guild is None:
             embed_color = ctx.author.color
         else:
             embed_color = 16753920
-        # messages = len(self.bot.messages)
-        embed = discord.Embed(description= '**Uptime:** {}'.format(uptime_time), colour=embed_color)
-        #embed.set_author(
-            #name='Source Code',
-            #url='https://github.com/shivaco/',
-            #icon_url=
-            #self.bot.user.avatar_url)     Gonna be used soon
+        embed = discord.Embed(description = '**Uptime:** {}\n**Memory**: {} MB'.format(uptime_time, mem), color = embed_color)
+        embed.set_author(
+            name = 'Source Code',
+            url = 'https://github.com/shivaco/Mari-bot',
+            icon_url = self.bot.user.avatar_url)
         embed.add_field(name='Owner', value=owner)
-        embed.add_field(name='Bot ID', value=botid)
+        embed.add_field(name='Bot ID', value=self.bot.user.id)
         embed.add_field(name='Servers', value=servers)
-        # embed.add_field(name='Messages', value=messages)
         embed.add_field(name='Channels', value=channels)
         embed.add_field(name='Users', value=members)
         embed.add_field(name='Additional Info', value=support_stuff)
