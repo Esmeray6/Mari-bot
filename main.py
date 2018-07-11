@@ -39,7 +39,7 @@ async def on_command_error(ctx, error):
     elif not isinstance(error, commands.CommandNotFound):
         print('Ignoring exception in command {}:'.format(ctx.command), file=sys.stderr)
         traceback.print_exception(type(error), error, error.__traceback__, file=sys.stderr)
-        await ctx.send('Ignoring exception in command `{}`: `{}`'.format(ctx.command, error))
+        await ctx.send('Ignoring exception in command `{}` - `{}: {}`'.format(ctx.command, type(error.original).__name__, str(error.original)))
 
 @bot.event
 async def on_ready():

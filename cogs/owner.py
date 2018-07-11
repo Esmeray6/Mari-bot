@@ -39,19 +39,14 @@ class OwnerCog:
             result += '    '.join('\n    {} - {}\n'.format(c.name, c.help) for c in cmds) + '\n'
             await ctx.send(pref + result + postf)
 
-    # Hidden means it won't show up on the default help.
     @cog.command(name='load', hidden=True)
     @commands.is_owner()
     async def cog_load(self, ctx, *, cog_name: str):
         """Command which loads a cog."""
         cog = 'cogs.' + cog_name.lower()
 
-        try:
-            self.bot.load_extension(cog)
-        except Exception as e:
-            await ctx.send(f'**`ERROR:`** {type(e).__name__} - {e}')
-        else:
-            await ctx.send('Done.')
+        self.bot.load_extension(cog)
+        await ctx.send('Done.')
 
     @cog.command(name='unload', hidden=True)
     @commands.is_owner()
@@ -59,12 +54,8 @@ class OwnerCog:
         """Command which unloads a cog."""
         cog = 'cogs.' + cog_name.lower()
 
-        try:
-            self.bot.unload_extension(cog)
-        except Exception as e:
-            await ctx.send(f'**`ERROR:`** {type(e).__name__} - {e}')
-        else:
-            await ctx.send('Done.')
+        self.bot.unload_extension(cog)
+        await ctx.send('Done.')
 
     @cog.command(name='reload', hidden=True)
     @commands.is_owner()
@@ -72,13 +63,9 @@ class OwnerCog:
         """Command which reloads a cog."""
         cog = 'cogs.' + cog_name.lower()
 
-        try:
-            self.bot.unload_extension(cog)
-            self.bot.load_extension(cog)
-        except Exception as e:
-            await ctx.send(f'**`ERROR:`** {type(e).__name__} - {e}')
-        else:
-            await ctx.send('Done.')
+        self.bot.unload_extension(cog)
+        self.bot.load_extension(cog)
+        await ctx.send('Done.')
 
 def setup(bot):
     bot.add_cog(OwnerCog(bot))
