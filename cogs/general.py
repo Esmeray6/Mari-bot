@@ -109,7 +109,7 @@ class General:
         owner = app.owner
         author = ctx.author
         uptime_time = self.get_bot_uptime()
-        support_stuff = '[Support server](https://discord.gg/G5PsTEz)\n[Patreon](https://www.patreon.com/shivaco)'
+        support_stuff = '[Support server](https://discord.gg/f5nDpp6)\n[Patreon](https://www.patreon.com/shivaco)'
         servers = len(self.bot.guilds)
         process = psutil.Process(os.getpid())
         mem = round(process.memory_info()[0] / float(2 ** 20), 2)
