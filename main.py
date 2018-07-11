@@ -6,7 +6,7 @@ import traceback
 import sys
 import json
 
-path = 'settings.json' # yeah
+path = 'settings.json'
 
 bot = commands.Bot(command_prefix=commands.when_mentioned_or('*'), activity=discord.Game(name='*help'))
 bot.remove_command('help')
