@@ -5,7 +5,6 @@ import datetime
 import traceback
 import sys
 import json
-import aiohttp
 
 path = 'settings.json'
 
