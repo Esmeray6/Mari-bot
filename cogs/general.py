@@ -42,7 +42,7 @@ class General:
         retard = "{}#{}'s avatar"
         embed = discord.Embed(color=user.colour)
         embed.set_author(name=retard.format(user.name, user.discriminator))
-        embed.set_image(url=user.avatar_url.replace('.webp', '.png'))
+        embed.set_image(url=user.avatar_url.replace('.webp', '.png').replace('size=1024', 'size=2048'))
         await ctx.send(embed=embed)
 
     @commands.command()
