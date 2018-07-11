@@ -46,6 +46,10 @@ async def on_ready():
     print('{0}\nUser ID: {0.id}'.format(bot.user))
     game = discord.Game(name='ready in {} servers'.format(len(bot.guilds)))
     await bot.change_presence(activity=game, status=discord.Status.online)
+    if bot.user.id == 424582831637790730:
+        import requests
+        response = requests.get('https://cdn.discordapp.com/avatars/458607948755763200/e3e4fedba01aa021ef05ca1f37bc151f.png?size=1024')
+        await bot.user.edit(avatar=response.content, username='Beta Mari')
 
 @bot.event
 async def on_message(message):
