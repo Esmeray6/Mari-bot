@@ -25,7 +25,8 @@ class Hentai:
             else:
                 await ctx.send("This channel is not marked as NSFW.")
         except Exception as e:
-            await ctx.send(e)
+            await ctx.send('An error occured. Check the console for more details.')
+            print(e)
 
 def setup(bot):
     bot.add_cog(Hentai(bot))

@@ -17,7 +17,7 @@ class Help:
             for smth in li:
                 if smth != 'Help' and smth != 'OwnerCog':
                     s = list(self.bot.get_cog_commands(smth))
-                    result += s[0].cog_name + ':\n' + '    '.join('\n    {} - {}\n'.format(c.name, c.help) for c in s)
+                    result += '\n' + s[0].cog_name + ':\n' + '    '.join('\n    {} - {}\n'.format(c.name, c.help) for c in s)
             await ctx.send(pref + result + postf)
         else:
             if command not in self.bot.all_commands:
