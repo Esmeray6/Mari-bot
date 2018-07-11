@@ -89,7 +89,10 @@ class Fun:
                 result += 'KEK'
             else:
                 result += char
-        await ctx.send((ctx.author.mention + ' ') + result)
+        if len(result) >= 2000:
+            await ctx.send('Turns out the edited version has more than 2000 characters. Try again with a fewer amount of characters.')
+        else:
+            await ctx.send((ctx.author.mention + ' ') + result)
 
     @commands.command()
     @commands.guild_only()

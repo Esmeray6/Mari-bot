@@ -12,13 +12,12 @@ bot = commands.Bot(command_prefix=commands.when_mentioned_or('*'), activity=disc
 bot.remove_command('help')
 bot.uptime = datetime.datetime.utcnow()
 initial_extensions = json.load(open(path, 'r'))["enabled_cogs"]
-if __name__ == '__main__':
-    for extension in initial_extensions:
-        try:
-            bot.load_extension(extension)
-        except Exception as e:
-            print(f'Failed to load extension {extension}.', file=sys.stderr)
-            traceback.print_exc()
+for extension in initial_extensions:
+    try:
+        bot.load_extension(extension)
+    except Exception as e:
+        print('Failed to load extension {}.'.format(extension), file=sys.stderr)
+        traceback.print_exc()
 
 @bot.event
 async def on_command_error(ctx, error):
