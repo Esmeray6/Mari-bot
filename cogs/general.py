@@ -3,6 +3,7 @@ from discord.ext import commands
 import datetime
 import psutil
 import os
+import time
 
 class General:
     def __init__(self, bot):
@@ -16,6 +17,56 @@ class General:
             "Concentrate and ask again", "Don't count on it", "My reply is no",
             "My sources say no", "Outlook not so good", "Very doubtful"
         ]
+
+    @commands.command()
+    async def ping(self, ctx):
+        "Bot's connection to Discord."
+        t1 = time.perf_counter()
+        await ctx.channel.trigger_typing()
+        t2 = time.perf_counter()
+        thedata = (' 🏓 **Pong.**\nTime: ' + str(round((t2 - t1) * 1000))) + ' ms'
+        if ctx.guild:
+            embed_color = ctx.guild.me.color
+        else:
+            embed_color = discord.Color.default()
+        data = discord.Embed(description=thedata, color=embed_color)
+        await ctx.send(embed=data)
+
+    @commands.command(aliases=['av'])
+    @commands.guild_only()
+    async def avatar(self, ctx, *, user: discord.Member = None):
+        "User's avatar."
+        author = ctx.author
+        if user is None:
+            user = ctx.author
+        retard = "{}#{}'s avatar"
+        embed = discord.Embed(color=user.colour)
+        embed.set_author(name=retard.format(user.name, user.discriminator))
+        embed.set_image(url=user.avatar_url.replace('.webp', '.png'))
+        await ctx.send(embed=embed)
+
+    @commands.command()
+    async def roles(self, ctx, *, user: discord.Member = None):
+        "Check the user's roles. Provide no arguments to check your roles."
+        if not user:
+            user = ctx.author
+        desc = '\n'.join((r.name for r in user.roles if r.name != '@everyone'))
+        if desc == "":
+            await ctx.send('{0.name}#{0.discriminator} has no roles!'.format(user))
+        elif len(user.roles[1:]) >= 1:
+            embed = discord.Embed(
+                title="{}'s roles".format(user.name),
+                description=desc,
+                colour=user.colour)
+            await ctx.send(ctx.author.mention, embed=embed)
+
+    @commands.command()
+    async def invite(self, ctx):
+        'A link that lets you invite this bot your server.'
+        await ctx.send(
+            ctx.author.mention +
+            ' **OAuth2 link to invite {} bot to your server:** <https://discordapp.com/oauth2/authorize?client_id={}&permissions=469887047&scope=bot>'.format(self.bot.user.name, self.bot.user.id)
+        )
 
     @commands.command(aliases=['roleperms', 'role_permissions', 'rolepermissions']) # WHY SO MANY ALIASES
     @commands.guild_only()
