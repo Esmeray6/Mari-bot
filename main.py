@@ -7,10 +7,6 @@ import sys
 import json
 
 path = 'settings.json' # yeah
-#if sys.platform.startswith('linux') or sys.platform.startswith('linux2'):
-    #path = 'settings.json'
-# elif sys.platform.startswith('win32'):
-    #path = 'settings.json'
 
 bot = commands.Bot(command_prefix=commands.when_mentioned_or('*'), activity=discord.Game(name='*help'))
 bot.remove_command('help')
