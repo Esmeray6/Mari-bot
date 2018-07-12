@@ -1,0 +1,10 @@
+{
+    "enabled_cogs": [
+      "cogs.general",
+      "cogs.fun",
+      "cogs.owner",
+      "cogs.helpformatter",
+      "cogs.hentai",
+      "cogs.status"
+    ]
+}

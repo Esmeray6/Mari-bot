@@ -7,11 +7,12 @@ import sys
 import json
 
 path = 'settings.json'
+cogs_path = 'cog_settings.json'
 
 bot = commands.Bot(command_prefix=commands.when_mentioned_or('*'))
 bot.remove_command('help')
 bot.uptime = datetime.datetime.utcnow()
-initial_extensions = json.load(open(path, 'r'))["enabled_cogs"]
+initial_extensions = json.load(open(cogs_path, 'r'))["enabled_cogs"]
 for extension in initial_extensions:
     try:
         bot.load_extension(extension)
