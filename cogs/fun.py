@@ -140,6 +140,11 @@ class Fun:
                 embed.set_image(url = pic)
                 await ctx.send(content=author.mention, embed = embed)
 
+    @commands.command()
+    async def nicememe(self, ctx):
+        "Nice meme."
+        await ctx.send("http://niceme.me")
+
 def setup(bot):
     n = Fun(bot)
     bot.add_cog(n)
