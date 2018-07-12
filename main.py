@@ -8,7 +8,7 @@ import json
 
 path = 'settings.json'
 
-bot = commands.Bot(command_prefix=commands.when_mentioned_or('*'), activity=discord.Game(name='*help'))
+bot = commands.Bot(command_prefix=commands.when_mentioned_or('*'))
 bot.remove_command('help')
 bot.uptime = datetime.datetime.utcnow()
 initial_extensions = json.load(open(path, 'r'))["enabled_cogs"]
@@ -43,8 +43,8 @@ async def on_command_error(ctx, error):
 @bot.event
 async def on_ready():
     print('{0}\nUser ID: {0.id}'.format(bot.user))
-    game = discord.Game(name='ready in {} servers'.format(len(bot.guilds)))
-    await bot.change_presence(activity=game, status=discord.Status.online)
+    status = 'in {} servers'.format(len(bot.guilds))
+    await bot.change_presence(activity=discord.Game(status))
 
 @bot.event
 async def on_message(message):

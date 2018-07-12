@@ -1,10 +1,11 @@
 {
-    "token": "NDI0NTgyODMxNjM3NzkwNzMw.DieGiw.UiNhYeeRs7oM3-ruybWbHz3_U2g",
+    "token": "",
     "enabled_cogs": [
       "cogs.general",
       "cogs.fun",
       "cogs.owner",
       "cogs.helpformatter",
-      "cogs.hentai"
+      "cogs.hentai",
+      "cogs.status"
     ]
 }
