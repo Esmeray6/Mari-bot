@@ -19,6 +19,18 @@ class General:
             "My sources say no.", "Outlook not so good.", "Very doubtful."
         ]
 
+    @commands.command(aliases=['8ball'])
+    async def eightball(self, ctx, *, question: str):
+        "Ask 8ball a question."
+        result = random.choice(self.ball)
+        if ctx.guild:
+            embed_color = ctx.guild.me.color
+        else:
+            embed_color = 16753920
+        em = discord.Embed(description = question, title = '🎱 8ball', color = embed_color)
+        em.add_field(name = 'Answer', value = result)
+        await ctx.send(ctx.author.mention, embed = em)
+
     @commands.command()
     async def ping(self, ctx):
         "Bot's connection to Discord."
