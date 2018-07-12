@@ -15,7 +15,7 @@ class Help:
         if command is None:
             li = [cog[0] for cog in self.bot.cogs.items()]
             for smth in li:
-                if smth != 'Help' and smth != 'OwnerCog':
+                if smth != 'Help' and smth != 'OwnerCog' and smth != 'Status':
                     s = list(self.bot.get_cog_commands(smth))
                     result += '\n' + s[0].cog_name + ':\n' + '    '.join('\n    {} - {}\n'.format(c.name, c.help) for c in s)
             await ctx.send(pref + result + postf)
