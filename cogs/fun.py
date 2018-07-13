@@ -8,6 +8,11 @@ class Fun:
         self.bot = bot
 
     @commands.command()
+    async def say(self, ctx, *, msg):
+        "Make the bot say something."
+        await ctx.send(msg)
+
+    @commands.command()
     @commands.guild_only()
     async def hug(self, ctx, *, user: discord.Member = None):
         'Hug your waifu!'
