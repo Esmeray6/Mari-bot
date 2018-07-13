@@ -10,6 +10,7 @@ class OwnerCog:
     @commands.command()
     @commands.is_owner()
     async def hiddeninfo(self, ctx, user_id: int=None):
+        "Get user info through user ID."
         if user_id == None:
             user_id = ctx.author.id
         now = datetime.datetime.now()
