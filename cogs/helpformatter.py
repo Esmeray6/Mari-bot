@@ -22,9 +22,9 @@ class Help:
         else:
             if command not in self.bot.all_commands:
                 if command not in self.bot.cogs:
-                    cmd = self.bot.get_command(command)
+                    cmd = self.bot.get_command(command.replace('*', '').replace(self.bot.user.mention, ''))
                     if cmd:
-                        result += cmd.signature + '\n\n    ' + str(cmd.help)
+                        result += ctx.prefix.replace(self.bot.user.mention, '@{}#{}'.format(self.bot.user.name, self.bot.user.discriminator)) + cmd.signature + '\n\n    ' + str(cmd.help)
                         await ctx.send(pref + result + postfix)
                     else:
                         result = 'That command/category/command group does not exist!'
@@ -37,8 +37,8 @@ class Help:
                     await ctx.send(pref + result + postfix)
 
             else:
-                cmd = self.bot.get_command(command)
-                result += cmd.signature + '\n\n    ' + str(cmd.help)
+                cmd = self.bot.get_command(command.replace('*', '').replace(self.bot.user.mention, ''))
+                result += ctx.prefix.replace(self.bot.user.mention, '@{}#{}'.format(self.bot.user.name, self.bot.user.discriminator)) + cmd.signature + '\n\n    ' + str(cmd.help)
                 await ctx.send(pref + result + postfix)
 
 def setup(bot):
