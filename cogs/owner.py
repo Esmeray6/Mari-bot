@@ -14,7 +14,10 @@ class OwnerCog:
             user_id = ctx.author.id
         now = datetime.datetime.now()
         user = await self.bot.get_user_info(user_id)
-        em = discord.Embed(title=user.id,color=ctx.author.color)
+        if ctx.guild:
+            em = discord.Embed(title=user.id,color=ctx.author.color)
+        else:
+            em = discord.Embed(title=user.id,color=discord.Color.default())
         em.set_author(name=user)
         since_created = (now - user.created_at).days
         user_created = user.created_at.strftime("%d %b %Y %H:%M")
