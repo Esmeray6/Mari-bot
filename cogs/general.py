@@ -19,6 +19,14 @@ class General:
             "My sources say no.", "Outlook not so good.", "Very doubtful."
         ]
 
+    @commands.command()
+    async def contact(self, ctx, *, msg):
+        "Contact the bot owner through the bot."
+        app = await self.bot.application_info()
+        owner = app.owner
+        embed = discord.Embed(title='Sent by {0.name}#{0.discriminator} ({0.id})'.format(ctx.author), description = msg)
+        await owner.send('`contact` command used.', embed = embed)
+
     @commands.command(aliases=['8ball'])
     async def eightball(self, ctx, *, question: str):
         "Ask 8ball a question."

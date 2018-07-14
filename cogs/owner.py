@@ -13,10 +13,23 @@ from random import randint, choice
 from urllib.parse import quote_plus
 import aiohttp
 
-class OwnerCog:
+class Owner:
 
     def __init__(self, bot):
         self.bot = bot
+
+    @commands.command()
+    @commands.is_owner()
+    async def dm(self, ctx, user_id: int, *, text: str):
+        user = await self.bot.get_user_info(user_id)
+        app = await self.bot.application_info()
+        owner = app.owner
+        embed = discord.Embed(title='Sent by {0} ({0.id}'.format(owner), description=text)
+        try:
+            await user.send('A message from bot owner.', embed=embed)
+        except discord.Forbidden:
+            await ctx.send("The user does not allow server members to send direct messages.")
+        await ctx.send("Sent the message to {}.".format(user))
 
     def cleanup_code(self, content):
         """Automatically removes code blocks from the code."""
@@ -69,10 +82,10 @@ class OwnerCog:
                 else:
                     await ctx.send(result)
 
-    @commands.command()
+    @commands.command(hidden=True)
     @commands.is_owner()
     async def py(self, ctx, *, msg):
-        """Python interpreter. See the wiki for more info."""
+        """Python interpreter."""
 
         if ctx.invoked_subcommand is None:
             env = {
@@ -116,7 +129,7 @@ class OwnerCog:
             em.add_field(name='Account Type',value="Bot")
         await ctx.send(embed=em)
 
-    @commands.group()
+    @commands.group(hidden=True)
     async def cog(self, ctx):
         '''Manage cogs.'''
         if ctx.invoked_subcommand is None:
@@ -157,4 +170,4 @@ class OwnerCog:
         await ctx.send('Done.')
 
 def setup(bot):
-    bot.add_cog(OwnerCog(bot))
+    bot.add_cog(Owner(bot))
