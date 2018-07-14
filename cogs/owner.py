@@ -21,6 +21,7 @@ class Owner:
     @commands.command()
     @commands.is_owner()
     async def dm(self, ctx, user_id: int, *, text: str):
+        "DM the user through using their user ID."
         user = await self.bot.get_user_info(user_id)
         app = await self.bot.application_info()
         owner = app.owner
