@@ -29,7 +29,7 @@ class Owner:
         try:
             await user.send('A message from bot owner.', embed=embed)
         except discord.Forbidden:
-            await ctx.send("The user does not allow server members to send direct messages.")
+            await ctx.send("{} does not allow server members to send direct messages.".format(user))
         await ctx.send("Sent the message to {}.".format(user))
 
     def cleanup_code(self, content):
