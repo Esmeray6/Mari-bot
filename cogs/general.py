@@ -19,6 +19,82 @@ class General:
             "My sources say no.", "Outlook not so good.", "Very doubtful."
         ]
 
+    @commands.command(aliases=['sinfo'])
+    @commands.guild_only()
+    async def serverinfo(self, ctx):
+        guild = ctx.guild
+        levels = {
+            "None - No criteria set.": discord.VerificationLevel.none,
+            "Low - Member must have a verified email on their Discord account.": discord.VerificationLevel.low,
+            "Medium - Member must have a verified email and be registered on Discord for more than five minutes.": discord.VerificationLevel.medium,
+            "High - Member must have a verified email, be registered on Discord for more than five minutes, and be a member of the guild itself for more than ten minutes.": discord.VerificationLevel.table_flip,
+            "Extreme - Member must have a verified phone on their Discord account.": discord.VerificationLevel.double_table_flip
+        }
+        filters = {
+            "Disabled - The guild does not have the content filter enabled.": discord.ContentFilter.disabled,
+            "No Role - The guild has the content filter enabled for members without a role.": discord.ContentFilter.no_role,
+            "All Members - The guild has the content filter enabled for every member.": discord.ContentFilter.all_members
+        }
+        regions = {
+            "US West": discord.VoiceRegion.us_west,
+            "US East": discord.VoiceRegion.us_east,
+            "US South": discord.VoiceRegion.us_south,
+            "US Central": discord.VoiceRegion.us_central,
+            "London": discord.VoiceRegion.london,
+            "Sydney": discord.VoiceRegion.sydney,
+            "Amsterdam": discord.VoiceRegion.amsterdam,
+            "Frankfurt": discord.VoiceRegion.frankfurt,
+            "Brazil": discord.VoiceRegion.brazil,
+            "Hong Kong": discord.VoiceRegion.hongkong,
+            "Russia": discord.VoiceRegion.russia,
+            "VIP US East": discord.VoiceRegion.vip_us_east,
+            "VIP US West": discord.VoiceRegion.vip_us_west,
+            "VIP Amsterdam": discord.VoiceRegion.vip_amsterdam,
+            "Singapore": discord.VoiceRegion.singapore,
+            "EU Central": discord.VoiceRegion.eu_central,
+            "EU West": discord.VoiceRegion.eu_west
+        }
+        for name, reg in regions.items():
+            if reg is guild.region:
+                server_region = name
+        verif_lvl = 'None'
+        for text, dvl in levels.items():
+            if dvl is guild.verification_level:
+                verif_lvl = text
+        for response, filt in filters.items():
+            if filt is guild.explicit_content_filter:
+                content_fiter = response
+        feats = ''
+        if guild.features != []:
+            for feature in guild.features:
+                feats += feature + '\n'
+        else:
+            feats = 'None'
+        if guild.emojis:
+            emotes_list = '\n'.join(['{0.name} - <:{0.name}:{0.id}>'.format(emoji) for emoji in guild.emojis[0:10]])
+        else:
+            emotes_list = "None"
+        if guild.roles and len(guild.roles) != 1:
+            roles_list = ', '.join(['`{}`'.format(role.name) for role in guild.role_hierarchy if role.name != '@everyone'])
+        else:
+            roles_list = "None"
+        embed = discord.Embed(title='Server info', color = guild.me.color)
+        embed.set_author(name='{} - {}'.format(guild.name, guild.id))
+        embed.set_image(url=guild.icon_url_as(format='png'))
+        embed.add_field(name='Owner', value='{0.name}#{0.discriminator}'.format(guild.owner))
+        embed.add_field(name='Owner ID', value=guild.owner.id)
+        embed.add_field(name='Members', value=guild.member_count)
+        embed.add_field(name='Text Channels', value=len(guild.text_channels))
+        embed.add_field(name='Voice Channels', value=len(guild.voice_channels))
+        embed.add_field(name='Categories', value=len(guild.categories))
+        embed.add_field(name='Region', value=server_region)
+        embed.add_field(name='Roles (' + str(len(guild.roles)) + ')', value=roles_list)
+        embed.add_field(name='Features (' + str(len(guild.features)) + ')', value=feats)
+        embed.add_field(name='Verification Level', value=verif_lvl)
+        embed.add_field(name='Content Filter', value=content_fiter)
+        embed.add_field(name='Emojis (' + str(len(guild.emojis)) + ')', value=emotes_list)
+        await ctx.send(embed=embed)
+
     @commands.command()
     async def contact(self, ctx, *, msg):
         "Contact the bot owner through the bot."
