@@ -83,7 +83,7 @@ class General:
 
     @commands.command()
     async def invite(self, ctx):
-        'A link that lets you invite this bot your server.'
+        "A link that lets you invite this bot your server."
         await ctx.send(
             ctx.author.mention +
             ' **OAuth2 link to invite {} bot to your server:** <https://discordapp.com/oauth2/authorize?client_id={}&permissions=469887047&scope=bot>'.format(self.bot.user.name, self.bot.user.id)
@@ -92,7 +92,7 @@ class General:
     @commands.command(aliases=['roleperms', 'role_permissions', 'rolepermissions']) # WHY SO MANY ALIASES
     @commands.guild_only()
     async def role_perms(self, ctx, * , role: discord.Role):
-        '''Get role's permissions.'''
+        "Get role's permissions."
         s = []
         for perm, value in role.permissions:
             uh = perm.replace('_', ' ')

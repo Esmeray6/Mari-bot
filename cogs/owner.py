@@ -132,7 +132,7 @@ class Owner:
 
     @commands.group(hidden=True)
     async def cog(self, ctx):
-        '''Manage cogs.'''
+        "Manage cogs."
         if ctx.invoked_subcommand is None:
             pref = '```\n'
             postf = '\n```'
@@ -145,7 +145,7 @@ class Owner:
     @cog.command(name='load', hidden=True)
     @commands.is_owner()
     async def cog_load(self, ctx, *, cog_name: str):
-        """Command which loads a cog."""
+        "Command which loads a cog."
         cog = 'cogs.' + cog_name.lower()
 
         self.bot.load_extension(cog)
@@ -154,7 +154,7 @@ class Owner:
     @cog.command(name='unload', hidden=True)
     @commands.is_owner()
     async def cog_unload(self, ctx, *, cog_name: str):
-        """Command which unloads a cog."""
+        "Command which unloads a cog."
         cog = 'cogs.' + cog_name.lower()
 
         self.bot.unload_extension(cog)
@@ -163,7 +163,7 @@ class Owner:
     @cog.command(name='reload', hidden=True)
     @commands.is_owner()
     async def cog_reload(self, ctx, *, cog_name: str):
-        """Command which reloads a cog."""
+        "Command which reloads a cog."
         cog = 'cogs.' + cog_name.lower()
 
         self.bot.unload_extension(cog)
