@@ -5,6 +5,9 @@ import psutil
 import os
 import time
 import random
+import urllib.request
+import urllib.parse
+import re
 
 class General:
     def __init__(self, bot):
@@ -19,9 +22,21 @@ class General:
             "My sources say no.", "Outlook not so good.", "Very doubtful."
         ]
 
+    @commands.command(aliases=['yt'])
+    async def youtube(self, ctx, *, search_terms):
+        "Find YouTube video with specified title."
+        try:
+            query_string = urllib.parse.urlencode({"search_query" : search_terms})
+            html_content = urllib.request.urlopen("http://www.youtube.com/results?" + query_string)
+            search_results = re.findall(r'href=\"\/watch\?v=(.{11})', html_content.read().decode())
+            await ctx.send("http://www.youtube.com/watch?v=" + search_results[0])
+        except IndexError:
+            await ctx.send("No video was found.")
+
     @commands.command(aliases=['sinfo'])
     @commands.guild_only()
     async def serverinfo(self, ctx):
+        "Get current server info."
         guild = ctx.guild
         levels = {
             "None - No criteria set.": discord.VerificationLevel.none,
