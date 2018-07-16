@@ -152,6 +152,7 @@ class Fun:
 
     @commands.command()
     async def choose(self, ctx, *, choices: str):
+        "Choose a random thing from provided choices."
         list_of_results = choices.split()
         final_result = random.choice(list_of_results)
         if ctx.guild:
