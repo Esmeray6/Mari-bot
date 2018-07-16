@@ -15,13 +15,14 @@ class Help:
         if command is None:
             li = [cog[0] for cog in self.bot.cogs.items()]
             for smth in li:
-                if smth != 'Help' and smth != 'Status':
+                if smth != 'Help':
                     s = list(self.bot.get_cog_commands(smth))
-                    paginator.add_line('\n' + s[0].cog_name + ':')
-                    paginator.add_line('    ')
-                    for c in s:
-                        if not c.hidden:
-                            paginator.add_line('    {} - {}\n'.format(str(c.name), str(c.help)))
+                    if s:
+                        paginator.add_line('\n' + s[0].cog_name + ':')
+                        paginator.add_line('    ')
+                        for c in s:
+                            if not c.hidden:
+                                paginator.add_line('    {} - {}\n'.format(str(c.name), str(c.help)))
             paginator.add_line(postf)
             for page in paginator.pages:
                 await ctx.send(page)
