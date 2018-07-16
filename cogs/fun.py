@@ -154,13 +154,16 @@ class Fun:
     async def choose(self, ctx, *, choices: str):
         "Choose a random thing from provided choices."
         list_of_results = choices.split()
-        final_result = random.choice(list_of_results)
-        if ctx.guild:
-            embed_color = ctx.guild.me.color
+        if len(list_of_results) > 1:
+            final_result = random.choice(list_of_results)
+            if ctx.guild:
+                embed_color = ctx.guild.me.color
+            else:
+                embed_color = 16753920
+            em = discord.Embed(description = final_result, color = embed_color)
+            await ctx.send(ctx.author.mention, embed = em)
         else:
-            embed_color = 16753920
-        em = discord.Embed(description = final_result, color = embed_color)
-        await ctx.send(ctx.author.mention, embed = em)
+            await ctx.send("Not enough choices.")
 
 def setup(bot):
     n = Fun(bot)
