@@ -15,3 +15,11 @@
 ![paste_it](https://big.animetitti.es/i/Dv8.gif)
 
 5. Install dependencies by using `cd PathToTheBotHere` and `python -m pip install -r requirements.txt` if your OS is Windows or `pip install -r requirements.txt` on Linux/Mac.
+
+6. *Elevator waiting music here*.
+
+7. Run the bot.
+      Windows: Double-Click on `start.bat`.
+      Linux/Mac: Type `bash start.sh` in command line.
+
+If any error appear, feel free to [create an issue](https://github.com/shivaco/Mari-bot/issues/new). It's preferred if you provide any screenshots that are related to your issue.
