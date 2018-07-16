@@ -12,6 +12,6 @@
 
 4. Paste it into settings.json between `""` and save the file either by pressing Ctrl+S or clicking on `File` and pressing `Save`.
 
-![paste_it](https://big.animetitti.es/i/kh9.gif)
+![paste_it](https://big.animetitti.es/i/Dv8.gif)
 
 5. Install dependencies by using `cd PathToTheBotHere` and `python -m pip install -r requirements.txt` if your OS is Windows or `pip install -r requirements.txt` on Linux/Mac.
