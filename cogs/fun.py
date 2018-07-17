@@ -160,7 +160,7 @@ class Fun:
                 embed_color = ctx.guild.me.color
             else:
                 embed_color = 16753920
-            em = discord.Embed(description = final_result, color = embed_color)
+            em = discord.Embed(description = '`' + final_result + '`', color = embed_color)
             await ctx.send(ctx.author.mention, embed = em)
         else:
             await ctx.send("Not enough choices.")
