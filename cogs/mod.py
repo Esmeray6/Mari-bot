@@ -5,7 +5,7 @@ class Mod:
     def __init__(self, bot):
         self.bot = bot
 
-    @commands.command(aliases['purge'])
+    @commands.command(aliases=['purge'])
     @commands.guild_only()
     @commands.has_permissions(manage_messages=True)
     async def prune(self, ctx, amount: int, channel: discord.TextChannel = None):
