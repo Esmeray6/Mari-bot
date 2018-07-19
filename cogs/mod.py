@@ -27,6 +27,33 @@ class Mod:
 
     @commands.command()
     @commands.guild_only()
+    @commands.has_permissions(kick_members=True)
+    @commands.bot_has_permissions(kick_members=True)
+    async def kick(self, ctx, member: discord.Member, *, reason = None):
+        if member == ctx.author:
+            await ctx.send(" You are not allowed to kick " + ctx.author.mention + '.')
+            return
+        if ctx.author.top_role < member.top_role:
+            await ctx.send("Your highest role is lower than the member's one. I can't let you kick them.")
+            return
+        elif ctx.author.top_role == member.top_role:
+            await ctx.send("Your highest role is the same as the member's one. I can't let you kick them.")
+            return
+        elif ctx.guild.me.top_role < member.top_role:
+            await ctx.send("My highest role is lower than the member's one. I can't kick them.")
+            return
+        elif ctx.guild.me.top_role == member.top_role:
+            await ctx.send("My highest role is the same as the member's one. I can't kick them.")
+        if reason == None:
+            reason = "Reason was not specified."
+        try:
+            await member.kick(reason=reason + ' -' + '{0.name}#{0.discriminator}'.format(ctx.author))
+            await ctx.send("Kicked {0.name}#{0.discriminator}".format(member))
+        except discord.Forbidden:
+            await ctx.send("Couldn't kick the user.") # Because full error handling is important. :^)
+
+    @commands.command()
+    @commands.guild_only()
     @commands.has_permissions(ban_members=True)
     @commands.bot_has_permissions(ban_members=True)
     async def ban(self, ctx, days: str, member: str = None, *, reason = None):
