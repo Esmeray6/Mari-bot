@@ -27,6 +27,30 @@ class Mod:
 
     @commands.command()
     @commands.guild_only()
+    @commands.bot_has_permissions(manage_channels=True)
+    async def mute(self, ctx, member: discord.Member, *, reason = None):
+        if not ctx.author.guild_permissions.mute_members:
+            await ctx.send("You are missing following permissions:\nMute Members") # Because @commands.has_permissions() returns channel permissions or something.
+            return
+        if reason == None:
+            reason = "Reason was not specified."
+        chans = 0
+        for ch in ctx.guild.channels:
+            overwrite = discord.PermissionOverwrite()
+            if isinstance(ch, discord.TextChannel):
+                overwrite.send_messages = False
+                overwrite.add_reactions = False
+                await ch.set_permissions(member, overwrite=overwrite)
+                chans += 1
+            elif isinstance(ch, discord.VoiceChannel):
+                overwrite.connect = False
+                overwrite.speak = False
+                await ch.set_permissions(member, overwrite=overwrite)
+                chans += 1
+        await ctx.send("Muted {0.name}#{0.discriminator} in all ({1}) channels\nReason: {2}".format(member, chans, reason))
+
+    @commands.command()
+    @commands.guild_only()
     @commands.has_permissions(kick_members=True)
     @commands.bot_has_permissions(kick_members=True)
     async def kick(self, ctx, member: discord.Member, *, reason = None):
