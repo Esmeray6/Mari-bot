@@ -23,7 +23,7 @@ class Mod:
         except discord.ClientException:
             await ctx.send("The number of messages to delete is more than 100.")
         except discord.HTTPException:
-            await ctx.send("Failed to delete messages, somehow.")    
+            await ctx.send("Failed to delete messages, somehow.")
 
     @commands.command()
     @commands.guild_only()
