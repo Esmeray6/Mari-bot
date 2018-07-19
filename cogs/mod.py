@@ -29,6 +29,7 @@ class Mod:
     @commands.guild_only()
     @commands.bot_has_permissions(manage_channels=True)
     async def mute(self, ctx, member: discord.Member, *, reason = None):
+        """Mute the user in voice and text channels."""
         if not ctx.author.guild_permissions.mute_members:
             await ctx.send("You are missing following permissions:\nMute Members") # Because @commands.has_permissions() returns channel permissions or something.
             return
@@ -54,6 +55,7 @@ class Mod:
     @commands.has_permissions(kick_members=True)
     @commands.bot_has_permissions(kick_members=True)
     async def kick(self, ctx, member: discord.Member, *, reason = None):
+        """Kick specified user from the server"""
         if member == ctx.author:
             await ctx.send(" You are not allowed to kick " + ctx.author.mention + '.')
             return
