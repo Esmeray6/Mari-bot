@@ -5,6 +5,7 @@ import datetime
 import traceback
 import sys
 import json
+from typing import Iterable, List
 
 path = 'settings.json'
 cogs_path = 'cog_settings.json'
@@ -23,9 +24,9 @@ for extension in initial_extensions:
 @bot.event
 async def on_command_error(ctx, error):
     if isinstance(error, commands.MissingRequiredArgument):
-        await ctx.send_help()
+        await send_help(ctx)
     elif isinstance(error, commands.BadArgument):
-        await ctx.send_help()
+        await send_help(ctx)
     elif isinstance(error, commands.DisabledCommand):
         await ctx.send("That command is disabled.")
     elif isinstance(error, commands.NotOwner):
@@ -40,6 +41,24 @@ async def on_command_error(ctx, error):
         print('Ignoring exception in command {}:'.format(ctx.command), file=sys.stderr)
         traceback.print_exception(type(error), error, error.__traceback__, file=sys.stderr)
         await ctx.send('Ignoring exception in command `{}` - `{}: {}`'.format(ctx.command, type(error.original).__name__, str(error.original)))
+
+async def send_help(self) -> List[discord.Message]:
+    """Send the command help message.
+    Returns
+    -------
+    `list` of `discord.Message`
+        A list of help messages which were sent to the user.
+    """
+    command = self.command
+
+    ret = []
+    destination = self
+    f = commands.HelpFormatter()
+    msgs = await f.format_help_for(self, command)
+    for msg in msgs:
+        m = await destination.send(msg)
+    ret.append(m)
+    return ret # Stolen from Redbot. :p
 
 @bot.event
 async def on_ready():
