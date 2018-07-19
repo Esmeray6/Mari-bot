@@ -28,6 +28,27 @@ class Mod:
     @commands.command()
     @commands.guild_only()
     @commands.bot_has_permissions(manage_channels=True)
+    async def unmute(self, ctx, member: discord.Member, *, reason = None):
+        """Mute the user in voice and text channels."""
+        if not ctx.author.guild_permissions.mute_members:
+            await ctx.send("You are missing following permissions:\nMute Members") # Because @commands.has_permissions() returns channel permissions or something.
+            return
+        if reason == None:
+            reason = "Reason was not specified."
+        chans = 0
+        for ch in ctx.guild.channels:
+            overwrite = discord.PermissionOverwrite()
+            if isinstance(ch, discord.TextChannel):
+                await ch.set_permissions(member, overwrite=None)
+                chans += 1
+            elif isinstance(ch, discord.VoiceChannel):
+                await ch.set_permissions(member, overwrite=None)
+                chans += 1
+        await ctx.send("Unmuted {0.name}#{0.discriminator} in all ({1}) channels\nReason: {2}".format(member, chans, reason))
+
+    @commands.command()
+    @commands.guild_only()
+    @commands.bot_has_permissions(manage_channels=True)
     async def mute(self, ctx, member: discord.Member, *, reason = None):
         """Mute the user in voice and text channels."""
         if not ctx.author.guild_permissions.mute_members:
