@@ -130,7 +130,7 @@ class General:
         em.add_field(name = 'Answer', value = result)
         await ctx.send(ctx.author.mention, embed = em)
 
-    @commands.command()
+    @commands.command(aliases=['pong'])
     async def ping(self, ctx):
         "Bot's connection to Discord."
         t1 = time.perf_counter()
