@@ -10,6 +10,7 @@ import urllib.parse
 import re
 import aiohttp
 import json
+import asyncio
 
 class General:
     def __init__(self, bot):
@@ -32,26 +33,30 @@ class General:
         async with aiohttp.ClientSession() as session:
             async with session.get('https://maps.googleapis.com/maps/api/geocode/json?address={}?key={}'.format(location, key)) as r:
                 response = await r.json()
-                status = response["status"]
-                if status == 'ZERO_RESULTS':
-                    output = "No location found."
-                    return output
                 resp = response["results"]
                 status = response["status"]
-                formatted_address = resp[0]["formatted_address"]
-                lat = resp[0]["geometry"]["location"]["lat"]
-                lng = resp[0]["geometry"]["location"]["lng"]
-                async with session.get("https://maps.googleapis.com/maps/api/timezone/json?location={},{}&timestamp={}&key={}".format(lat, lng, datetime.datetime.utcnow().timestamp(), key)) as city_info:
-                    info = await city_info.json()
-                    daylight_saving = info["dstOffset"]
-                    offset = info["rawOffset"]
-                    time = datetime.datetime.utcnow() + datetime.timedelta(seconds=daylight_saving) + datetime.timedelta(seconds=offset)
-                    time = time.strftime('%H:%M')
-                    return "It is currently **{}** in **{}**.".format(time, formatted_address)
+                if status == 'OK' and resp != []:
+                    status = response["status"]
+                    formatted_address = resp[0]["formatted_address"]
+                    lat = resp[0]["geometry"]["location"]["lat"]
+                    lng = resp[0]["geometry"]["location"]["lng"]
+                    async with session.get("https://maps.googleapis.com/maps/api/timezone/json?location={},{}&timestamp={}&key={}".format(lat, lng, datetime.datetime.utcnow().timestamp(), key)) as city_info:
+                        info = await city_info.json()
+                        daylight_saving = info["dstOffset"]
+                        offset = info["rawOffset"]
+                        time = datetime.datetime.utcnow() + datetime.timedelta(seconds=daylight_saving) + datetime.timedelta(seconds=offset)
+                        time = time.strftime('%H:%M')
+                        return "It is currently **{}** in **{}**.".format(time, formatted_address)
+                elif status == 'OVER_QUERY_LIMIT': # Because I am not sure which statuses I can get
+                    return "Try again later."
+                elif status == 'ZERO_RESULTS':
+                    return "Unfortunately, that does not exist."
 
     @commands.command()
     async def time(self, ctx, *, name):
-        await ctx.send(await self.request_time(name))
+        reply = await self.request_time(name)
+        if reply:
+            await ctx.send(reply)
 
     @commands.command(aliases=['yt'])
     async def youtube(self, ctx, *, search_terms):
