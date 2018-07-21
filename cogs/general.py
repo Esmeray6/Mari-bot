@@ -28,6 +28,8 @@ class General:
         with open('settings.json') as file:
             results = json.load(file)
             key = results['GoogleAPIKey']
+            if not key:
+                return "The owner hasn't setup Google API Key."
             file.close()
         async with aiohttp.ClientSession() as session:
             async with session.get('https://maps.googleapis.com/maps/api/geocode/json?address={}?key={}'.format(location, key)) as r:

@@ -80,4 +80,9 @@ async def on_message(message):
 with open(path, 'r') as settings:
     sets = json.load(settings)
     token = sets["token"]
-bot.run(token, bot=True, reconnect=True)
+    if not token:
+        print("\n\n-----\n"
+              "You don't have bot token setup in settings.json!\n"
+              "-----\n\n")
+    else:
+        bot.run(token, bot=True, reconnect=True)
