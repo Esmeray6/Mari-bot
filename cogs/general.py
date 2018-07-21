@@ -32,22 +32,22 @@ class General:
         async with aiohttp.ClientSession() as session:
             async with session.get('https://maps.googleapis.com/maps/api/geocode/json?address={}?key={}'.format(location, key)) as r:
                 response = await r.json()
-                resp = response["results"]
                 status = response["status"]
-                formatted_address = resp[0]["formatted_address"]
                 if status == 'ZERO_RESULTS':
                     output = "No location found."
                     return output
-                else:
-                    lat = resp[0]["geometry"]["location"]["lat"]
-                    lng = resp[0]["geometry"]["location"]["lng"]
-                    async with session.get("https://maps.googleapis.com/maps/api/timezone/json?location={},{}&timestamp={}&key={}".format(lat, lng, datetime.datetime.utcnow().timestamp(), key)) as city_info:
-                        info = await city_info.json()
-                        daylight_saving = info["dstOffset"]
-                        offset = info["rawOffset"]
-                        time = datetime.datetime.utcnow() + datetime.timedelta(seconds=daylight_saving) + datetime.timedelta(seconds=offset)
-                        time = time.strftime('%H:%M')
-                        return "It is currently **{}** in **{}**.".format(time, formatted_address)
+                resp = response["results"]
+                status = response["status"]
+                formatted_address = resp[0]["formatted_address"]
+                lat = resp[0]["geometry"]["location"]["lat"]
+                lng = resp[0]["geometry"]["location"]["lng"]
+                async with session.get("https://maps.googleapis.com/maps/api/timezone/json?location={},{}&timestamp={}&key={}".format(lat, lng, datetime.datetime.utcnow().timestamp(), key)) as city_info:
+                    info = await city_info.json()
+                    daylight_saving = info["dstOffset"]
+                    offset = info["rawOffset"]
+                    time = datetime.datetime.utcnow() + datetime.timedelta(seconds=daylight_saving) + datetime.timedelta(seconds=offset)
+                    time = time.strftime('%H:%M')
+                    return "It is currently **{}** in **{}**.".format(time, formatted_address)
 
     @commands.command()
     async def time(self, ctx, *, name):
