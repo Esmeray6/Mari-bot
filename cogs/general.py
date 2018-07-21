@@ -24,7 +24,7 @@ class General:
             "My sources say no.", "Outlook not so good.", "Very doubtful."
         ]
 
-    async def request_time(self, location):
+    async def request_time(self, location): # Get API key on https://developers.google.com/maps/documentation/timezone/start
         with open('settings.json') as file:
             results = json.load(file)
             key = results['GoogleAPIKey']
