@@ -10,7 +10,6 @@ import urllib.parse
 import re
 import aiohttp
 import json
-import asyncio
 
 class General:
     def __init__(self, bot):
