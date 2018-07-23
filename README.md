@@ -19,7 +19,9 @@
 6. *Elevator waiting music here*.
 
 7. Run the bot.
-      Windows: Double-Click on `start.bat`.
-      Linux/Mac: Type `bash start.sh` in command line.
+7.1 Windows: Double-Click on `start.bat`.
+7.2 Linux/Mac: Type `bash start.sh` in command line.
 
-If any error appear, feel free to [create an issue](https://github.com/shivaco/Mari-bot/issues/new). It's preferred if you provide any screenshots that are related to your issue.
+If you have any questions about the bot, feel free to ask in channel #help in our [support server](https://discord.gg/f5nDpp6)!
+
+If any errors appear, feel free to [create an issue](https://github.com/shivaco/Mari-bot/issues/new). It's preferred if you provide any screenshots that are related to your issue.
