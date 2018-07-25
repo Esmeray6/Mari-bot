@@ -63,7 +63,7 @@ async def send_help(self) -> List[discord.Message]:
 @bot.event
 async def on_ready():
     print('{0}\nUser ID: {0.id}'.format(bot.user))
-    status = 'in {} servers'.format(len(bot.guilds))
+    status = '*help or @{} help'.format(bot.user)
     await bot.change_presence(activity=discord.Game(status))
 
 @bot.event

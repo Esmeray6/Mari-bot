@@ -5,7 +5,6 @@
       "cogs.owner",
       "cogs.helpformatter",
       "cogs.hentai",
-      "cogs.status",
       "cogs.mod"
     ]
 }
