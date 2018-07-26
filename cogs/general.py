@@ -266,7 +266,7 @@ class General:
         servers = len(self.bot.guilds)
         process = psutil.Process(os.getpid())
         mem = round(process.memory_info()[0] / float(2 ** 20), 2)
-        if ctx.guild is None:
+        if ctx.guild:
             embed_color = ctx.guild.me.color
         else:
             embed_color = 16753920
