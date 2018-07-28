@@ -110,7 +110,7 @@ class Owner:
     @commands.is_owner()
     async def hiddeninfo(self, ctx, user_id: int=None):
         "Get user info through user ID."
-        if user_id == None:
+        if not user_id:
             user_id = ctx.author.id
         now = datetime.datetime.now()
         user = await self.bot.get_user_info(user_id)
