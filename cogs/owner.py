@@ -63,7 +63,7 @@ class Owner:
             value = stdout.getvalue()
 
             result = None
-            if ret is None:
+            if not ret:
                 if value:
                     result = '```\n{}\n```'.format(value)
                 else:
@@ -88,7 +88,7 @@ class Owner:
     async def py(self, ctx, *, msg):
         """Python interpreter."""
 
-        if ctx.invoked_subcommand is None:
+        if not ctx.invoked_subcommand:
             env = {
                 'bot': self.bot,
                 'self': self,
@@ -133,7 +133,7 @@ class Owner:
     @commands.group(hidden=True)
     async def cog(self, ctx):
         "Manage cogs."
-        if ctx.invoked_subcommand is None:
+        if not ctx.invoked_subcommand:
             pref = '```\n'
             postf = '\n```'
             result = ctx.command.name + ':\n'
