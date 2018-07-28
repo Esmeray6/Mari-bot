@@ -186,7 +186,7 @@ class General:
     async def avatar(self, ctx, *, user: discord.Member = None):
         "User's avatar."
         author = ctx.author
-        if user is None:
+        if not user:
             user = ctx.author
         retard = "{}#{}'s avatar"
         embed = discord.Embed(color=user.colour)

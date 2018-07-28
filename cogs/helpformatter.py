@@ -12,7 +12,7 @@ class Help:
         result = ''
         postfix = '\n```'
         paginator = commands.Paginator()
-        if command is None:
+        if not command:
             li = [cog[0] for cog in self.bot.cogs.items()]
             for smth in li:
                 if smth != 'Help':
