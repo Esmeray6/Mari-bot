@@ -137,7 +137,7 @@ class Fun:
             async with session.get("https://api.computerfreaker.cf/v1/anime") as r:
                 original = await r.json()
                 pic = original["url"].replace("\\", '/')
-                if guild is None:
+                if not guild:
                     colour = discord.Colour.default()
                 else:
                     colour = author.colour
