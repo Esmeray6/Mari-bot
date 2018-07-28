@@ -12,7 +12,7 @@ class Mod:
     async def prune(self, ctx, amount: int, channel: discord.TextChannel = None):
         """Delete X messages in specified channel.
         Defaults to current channel if none was specified."""
-        if channel == None:
+        if not channel:
             channel = ctx.channel
         msgs = []
         async for msg in channel.history(limit=amount + 1):
@@ -33,7 +33,7 @@ class Mod:
         if not ctx.author.guild_permissions.mute_members:
             await ctx.send("You are missing following permissions:\nMute Members") # Because @commands.has_permissions() returns channel permissions or something.
             return
-        if reason == None:
+        if not reason:
             reason = "Reason was not specified."
         chans = 0
         for ch in ctx.guild.channels:
@@ -54,7 +54,7 @@ class Mod:
         if not ctx.author.guild_permissions.mute_members:
             await ctx.send("You are missing following permissions:\nMute Members") # Because @commands.has_permissions() returns channel permissions or something.
             return
-        if reason == None:
+        if not reason:
             reason = "Reason was not specified."
         chans = 0
         for ch in ctx.guild.channels:
@@ -91,7 +91,7 @@ class Mod:
             return
         elif ctx.guild.me.top_role == member.top_role:
             await ctx.send("My highest role is the same as the member's one. I can't kick them.")
-        if reason == None:
+        if not reason:
             reason = "Reason was not specified."
         try:
             await member.kick(reason=reason + ' -' + '{0.name}#{0.discriminator}'.format(ctx.author))
@@ -111,7 +111,7 @@ class Mod:
                 member = await commands.MemberConverter().convert(ctx, member)
             except commands.CommandError:
                 await ctx.send("No member found.")
-            if reason == None:
+            if not reason:
                 reason = 'Reason was not specified.'
             await member.ban(delete_message_days=days, reason=str(reason) + ' -' + '{0.name}#{0.discriminator}'.format(ctx.author))
             await ctx.send("Banned {0.name}#{0.discriminator}.".format(member))
@@ -119,7 +119,7 @@ class Mod:
             try:
                 days = await commands.MemberConverter().convert(ctx, days)
                 member = days
-                if reason == None:
+                if not reason:
                     reason = 'Reason was not specified.'
                 await member.ban(delete_message_days=1, reason=str(reason) + ' -' + '{0.name}#{0.discriminator}'.format(ctx.author))
                 await ctx.send("Banned {0.name}#{0.discriminator}.".format(member))
