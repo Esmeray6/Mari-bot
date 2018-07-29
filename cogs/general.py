@@ -200,7 +200,7 @@ class General:
         if not user:
             user = ctx.author
         desc = '\n'.join((r.name for r in user.roles if r.name != '@everyone'))
-        if desc == "":
+        if not desc:
             await ctx.send('{0.name}#{0.discriminator} has no roles!'.format(user))
         elif len(user.roles[1:]) >= 1:
             embed = discord.Embed(
