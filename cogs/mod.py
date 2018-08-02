@@ -57,6 +57,18 @@ class Mod:
         if not reason:
             reason = "Reason was not specified."
         chans = 0
+        if ctx.author.top_role < member.top_role:
+            await ctx.send("Your highest role is lower than the member's one. I can't let you mute them.")
+            return
+        elif ctx.author.top_role == member.top_role:
+            await ctx.send("Your highest role is the same as the member's one. I can't let you mute them.")
+            return
+        elif ctx.guild.me.top_role < member.top_role:
+            await ctx.send("My highest role is lower than the member's one. I can't mute them.")
+            return
+        elif ctx.guild.me.top_role == member.top_role:
+            await ctx.send("My highest role is the same as the member's one. I can't mute them.")
+            return
         for ch in ctx.guild.channels:
             overwrite = discord.PermissionOverwrite()
             if isinstance(ch, discord.TextChannel):
@@ -91,6 +103,7 @@ class Mod:
             return
         elif ctx.guild.me.top_role == member.top_role:
             await ctx.send("My highest role is the same as the member's one. I can't kick them.")
+            return
         if not reason:
             reason = "Reason was not specified."
         try:
