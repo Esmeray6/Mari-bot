@@ -253,7 +253,7 @@ class General:
         channels = 0
         members = 0
         for guild in self.bot.guilds:
-            channels += len(guild.channels)
+            channels += len(guild.text_channels) + len(guild.voice_channels)
             members += len(guild.members)
         app = await self.bot.application_info()
         owner = app.owner
