@@ -39,6 +39,18 @@ class Mod:
         if member == ctx.author:
             await ctx.send("You are not allowed to unmute " + ctx.author.mention + '.')
             return
+        if ctx.author.top_role < member.top_role:
+            await ctx.send("Your highest role is lower than the member's one. I can't let you unmute them.")
+            return
+        elif ctx.author.top_role == member.top_role:
+            await ctx.send("Your highest role is the same as the member's one. I can't let you unmute them.")
+            return
+        elif ctx.guild.me.top_role < member.top_role:
+            await ctx.send("My highest role is lower than the member's one. I can't unmute them.")
+            return
+        elif ctx.guild.me.top_role == member.top_role:
+            await ctx.send("My highest role is the same as the member's one. I can't unmute them.")
+            return
         for ch in ctx.guild.channels:
             overwrite = discord.PermissionOverwrite()
             if isinstance(ch, discord.TextChannel):
