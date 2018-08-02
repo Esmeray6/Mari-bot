@@ -36,6 +36,9 @@ class Mod:
         if not reason:
             reason = "Reason was not specified."
         chans = 0
+        if member == ctx.author:
+            await ctx.send("You are not allowed to unmute " + ctx.author.mention + '.')
+            return
         for ch in ctx.guild.channels:
             overwrite = discord.PermissionOverwrite()
             if isinstance(ch, discord.TextChannel):
@@ -57,6 +60,9 @@ class Mod:
         if not reason:
             reason = "Reason was not specified."
         chans = 0
+        if member == ctx.author:
+            await ctx.send("You are not allowed to mute " + ctx.author.mention + '.')
+            return
         if ctx.author.top_role < member.top_role:
             await ctx.send("Your highest role is lower than the member's one. I can't let you mute them.")
             return
@@ -90,7 +96,7 @@ class Mod:
     async def kick(self, ctx, member: discord.Member, *, reason = None):
         """Kick specified user from the server"""
         if member == ctx.author:
-            await ctx.send(" You are not allowed to kick " + ctx.author.mention + '.')
+            await ctx.send("You are not allowed to kick " + ctx.author.mention + '.')
             return
         if ctx.author.top_role < member.top_role:
             await ctx.send("Your highest role is lower than the member's one. I can't let you kick them.")
