@@ -88,23 +88,22 @@ class Owner:
     async def py(self, ctx, *, msg):
         """Python interpreter."""
 
-        if not ctx.invoked_subcommand:
-            env = {
-                'bot': self.bot,
-                'self': self,
-                'client': self.bot,
-                'ctx': ctx,
-                'channel': ctx.channel,
-                'author': ctx.author,
-                'guild': ctx.guild,
-                'server': ctx.guild,
-                'message': ctx.message,
-                'msg': ctx.message
-            }
+        env = {
+            'bot': self.bot,
+            'self': self,
+            'client': self.bot,
+            'ctx': ctx,
+            'channel': ctx.channel,
+            'author': ctx.author,
+            'guild': ctx.guild,
+            'server': ctx.guild,
+            'message': ctx.message,
+            'msg': ctx.message
+        }
 
-            env.update(globals())
+        env.update(globals())
 
-            await self.interpreter(env, msg, ctx)
+        await self.interpreter(env, msg, ctx)
 
     @commands.command()
     @commands.is_owner()
