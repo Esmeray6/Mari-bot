@@ -17,6 +17,12 @@ class Hentai:
             if channel.is_nsfw():
                 async with aiohttp.ClientSession() as session:
                     async with session.get("https://api.computerfreaker.cf/v1/hentai") as r:
+                        #Some quality hentai APIs Kappa
+                        #https://gelbooru-xsd8bjco8ukx.runkit.sh/posts
+                        #http://danbooru.donmai.us/posts/1000.json
+                        #http://hypnohub.net/post/index.json?limit=200
+                        #https://lolibooru.moe/post/index.json?limit=200
+                        #https://lolibooru.moe/post/index.json?limit=200
                         original = await r.json()
                         pic = original["url"]
                         embed = discord.Embed(description = "[Link]({})".format(pic), color = author.color)
