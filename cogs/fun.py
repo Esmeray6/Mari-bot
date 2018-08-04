@@ -10,7 +10,7 @@ class Fun:
     @commands.command()
     async def say(self, ctx, *, msg):
         "Make the bot say something."
-        await ctx.send(msg)
+        await ctx.send(msg.replace("@everyone", "@\u200beveryone").replace("@here", "@\u200bhere"))
 
     @commands.command()
     @commands.guild_only()
