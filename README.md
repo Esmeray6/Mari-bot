@@ -1,14 +1,14 @@
 1. First of all, create a Discord application and turn it into a bot.
 
-![bot_acc](https://i.imgur.com/KVcRxVm.gifv)
+![bot_acc](https://i.imgur.com/KVcRxVm.gif)
 
 3. Copy the bot token.
 
-![copy_token](https://i.imgur.com/NIPJj2T.gifv)
+![copy_token](https://i.imgur.com/NIPJj2T.gif)
 
 4. Paste the token into settings.json between `""` and save the file either by pressing Ctrl+S or clicking on `File` and pressing `Save`.
 
-![paste_it](https://i.imgur.com/8LwUmjf.gifv)
+![paste_it](https://i.imgur.com/8LwUmjf.gif)
 
 5. Install dependencies by using `cd PathToTheBotHere` and `python -m pip install -r requirements.txt` if your OS (Operating System) is Windows or `pip install -r requirements.txt` on Linux/Mac.
 
