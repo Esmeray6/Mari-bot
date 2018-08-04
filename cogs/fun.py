@@ -18,7 +18,7 @@ class Fun:
         'Hug your waifu!'
         author = ctx.author
         hug = '**{} hugged {}!**'
-        hugself = '**{} hugged himself**'.format(author.mention)
+        hugself = '**{} hugged themself**'.format(author.mention)
         choices = [
             'https://i.imgur.com/sW3RvRN.gif', 'https://i.imgur.com/gdE2w1x.gif', 'https://i.imgur.com/zpbtWVE.gif',
             'https://i.imgur.com/ZQivdm1.gif', 'https://i.imgur.com/MWZUMNX.gif', 'https://i.imgur.com/8futZnQ.gif',
@@ -58,7 +58,7 @@ class Fun:
         'Kiss your waifu!'
         author = ctx.author
         kiss = '**{} kissed {}**'
-        kissself = '**{} kissed himself**'.format(author.mention)
+        kissself = '**{} kissed themself**'.format(author.mention)
         choices = [
             'http://i.imgur.com/0D0Mijk.gif', 'https://i.imgur.com/4VePCc4.gif', 'http://i.imgur.com/3wv088f.gif',
             'https://i.imgur.com/dG73Bmb.gif', 'https://i.imgur.com/5epo3Ls.gif', 'https://i.imgur.com/JZLaOA2.gif',
@@ -105,7 +105,7 @@ class Fun:
         'Slap your senpai/waifu!'
         author = ctx.author
         slap = '**{} got slapped by {}**'
-        slapself = '**{} slapped himself**'.format(author.mention)
+        slapself = '**{} slapped themself**'.format(author.mention)
         choices = [
             'https://i.imgur.com/EO8udG1.gif', 'https://i.imgur.com/lMmn1wy.gif', 'https://i.imgur.com/TuSUTg5.gif',
             'https://i.imgur.com/9Ql97mO.gif', 'https://i.imgur.com/Qkv0q8n.gif', 'https://i.imgur.com/VBGqeIU.gif',
