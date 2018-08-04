@@ -1,20 +1,16 @@
-1. First of all, create a Discord application.
+1. First of all, create a Discord application and turn it into a bot.
 
-![new_app](https://big.animetitti.es/i/S3u.gif)
-
-2. Create a bot user.
-
-![bot_acc](https://big.animetitti.es/i/TwH.gif)
+![bot_acc](https://i.imgur.com/KVcRxVm.gifv)
 
 3. Copy the bot token.
 
-![copy_token](https://big.animetitti.es/i/KU0.gif)
+![copy_token](https://i.imgur.com/NIPJj2T.gifv)
 
-4. Paste it into settings.json between `""` and save the file either by pressing Ctrl+S or clicking on `File` and pressing `Save`.
+4. Paste the token into settings.json between `""` and save the file either by pressing Ctrl+S or clicking on `File` and pressing `Save`.
 
-![paste_it](https://big.animetitti.es/i/Dv8.gif)
+![paste_it](https://i.imgur.com/8LwUmjf.gifv)
 
-5. Install dependencies by using `cd PathToTheBotHere` and `python -m pip install -r requirements.txt` if your OS is Windows or `pip install -r requirements.txt` on Linux/Mac.
+5. Install dependencies by using `cd PathToTheBotHere` and `python -m pip install -r requirements.txt` if your OS (Operating System) is Windows or `pip install -r requirements.txt` on Linux/Mac.
 
 6. *Elevator waiting music here*.
 
