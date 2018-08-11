@@ -21,16 +21,15 @@ for extension in initial_extensions:
         print('Failed to load extension {}.'.format(extension), file=sys.stderr)
         traceback.print_exc()
 
-@bot.event
 async def on_command_error(ctx, error):
     if isinstance(error, commands.MissingRequiredArgument):
-        await send_help(ctx)
+        await missing_argument(ctx)
     elif isinstance(error, commands.BadArgument):
-        await send_help(ctx)
+        await bad_argument(ctx)
     elif isinstance(error, commands.DisabledCommand):
         await ctx.send("That command is disabled.")
     elif isinstance(error, commands.NotOwner):
-        await ctx.send("You are not bot owner.")
+        await ctx.send("You are not shivaco. :^)")
     elif isinstance(error, commands.MissingPermissions):
         if error.missing_perms:
             await ctx.send("You are missing following permissions:\n" + '\n'.join(perm for perm in error.missing_perms).replace('_', ' ').title())
@@ -42,23 +41,43 @@ async def on_command_error(ctx, error):
         traceback.print_exception(type(error), error, error.__traceback__, file=sys.stderr)
         await ctx.send('Ignoring exception in command `{}` - `{}: {}`'.format(ctx.command, type(error.original).__name__, str(error.original)))
 
-async def send_help(self) -> List[discord.Message]:
+async def missing_argument(ctx) -> List[discord.Message]:
     """Send the command help message.
     Returns
     -------
     `list` of `discord.Message`
         A list of help messages which were sent to the user.
     """
-    command = self.command
+    command = ctx.command
 
     ret = []
-    destination = self
+    destination = ctx
     f = commands.HelpFormatter()
-    msgs = await f.format_help_for(self, command)
+    msgs = await f.format_help_for(ctx, command)
     for msg in msgs:
-        m = await destination.send(msg)
+        m = await destination.send("You are missing the required argument.\n{}".format(msg))
     ret.append(m)
-    return ret # Stolen from Redbot. :p
+    return ret
+
+async def bad_argument(ctx) -> List[discord.Message]:
+    """Send the command help message.
+    Returns
+    -------
+    `list` of `discord.Message`
+        A list of help messages which were sent to the user.
+    """
+    command = ctx.command
+
+    ret = []
+    destination = ctx
+    f = commands.HelpFormatter()
+    msgs = await f.format_help_for(ctx, command)
+    for msg in msgs:
+        m = await destination.send("Your argument is invalid.\n{}".format(msg))
+    ret.append(m)
+    return ret
+
+#Both missing_argument() and bad_argument() are edited versions of send_help() that is used in Red bot.
 
 @bot.event
 async def on_ready():
