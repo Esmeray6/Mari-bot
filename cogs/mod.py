@@ -39,6 +39,7 @@ class Mod:
     @commands.has_permissions(ban_members=True)
     @commands.bot_has_permissions(ban_members=True)
     async def unban(self, ctx, user_id: int):
+        """Unban the banned user."""
         try:
             user = await self.bot.get_user_info(user_id)
         except discord.NotFound:
