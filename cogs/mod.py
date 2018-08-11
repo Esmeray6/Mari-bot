@@ -5,6 +5,53 @@ class Mod:
     def __init__(self, bot):
         self.bot = bot
 
+    @commands.command()
+    @commands.guild_only()
+    @commands.has_permissions(ban_members=True)
+    @commands.bot_has_permissions(ban_members=True)
+    async def hackban(self, ctx, user_id: int, *, reason = None):
+        """Ban the user that is not in the current server."""
+        if not reason:
+            reason = "Reason was not specified."
+        try:
+            user = await self.bot.get_user_info(user_id)
+        except discord.NotFound:
+            await ctx.send("No user with that user ID was found.")
+            return
+        try:
+            ban_status = await ctx.guild.get_ban(user)
+            await ctx.send("{} is banned already.".format(user))
+            return
+        except discord.NotFound:
+            pass
+        if user.id == self.bot.user.id:
+            await ctx.send("Why are you trying to hackban me?")
+            return
+        elif user.id == ctx.author.id:
+            await ctx.send("Why are you trying to hackban yourself?")
+            return
+        else:
+            await ctx.guild.ban(user, reason = reason, delete_message_days = 0)
+            await ctx.send("{} was banned from the server.".format(user))
+
+    @commands.command()
+    @commands.guild_only()
+    @commands.has_permissions(ban_members=True)
+    @commands.bot_has_permissions(ban_members=True)
+    async def unban(self, ctx, user_id: int):
+        try:
+            user = await self.bot.get_user_info(user_id)
+        except discord.NotFound:
+            await ctx.send("No user with that user ID was found.")
+            return
+        try:
+            ban_status = await ctx.guild.get_ban(user)
+        except discord.NotFound:
+            await ctx.send("{} is not banned.".format(user))
+            return
+        await ctx.guild.unban(user, reason="Unbanned by {}".format(ctx.author))
+        await ctx.send("Unbanned {}.".format(user))
+
     @commands.command(aliases=['purge'])
     @commands.guild_only()
     @commands.has_permissions(manage_messages=True)
