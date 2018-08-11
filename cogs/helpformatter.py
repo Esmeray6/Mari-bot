@@ -18,11 +18,10 @@ class Help:
                 if smth != 'Help':
                     s = list(self.bot.get_cog_commands(smth))
                     if s:
-                        paginator.add_line('\n' + s[0].cog_name + ':')
-                        paginator.add_line('    ')
+                        paginator.add_line('' + s[0].cog_name + ':')
                         for c in s:
                             if not c.hidden:
-                                paginator.add_line('    {} - {}\n'.format(str(c.name), str(c.help)))
+                                paginator.add_line('    {} - {}'.format(str(c.name), str(c.help)))
             paginator.add_line(postf)
             for page in paginator.pages:
                 await ctx.send(page)
@@ -39,10 +38,10 @@ class Help:
                         await ctx.send(result)
                 else:
                     the_cog = list(self.bot.get_cog_commands(command))
-                    paginator.add_line(the_cog[0].cog_name + ':\n')
+                    paginator.add_line(the_cog[0].cog_name + ':')
                     for cmd in the_cog:
                         if not cmd.hidden:
-                            paginator.add_line(''.join('    {} - {}\n'.format(cmd.name, str(cmd.help))))
+                            paginator.add_line(''.join('    {} - {}'.format(cmd.name, str(cmd.help))))
                     paginator.add_line(postf)
                     for page in paginator.pages:
                         await ctx.send(page)
