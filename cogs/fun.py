@@ -38,13 +38,13 @@ class Fun:
                     resp = await r.json()
                     image = resp["url"]
         if user:
-            if user is author:
+            if user == author:
                 embed = discord.Embed(color=0)
                 embed.set_image(url=image)
                 await ctx.send(content=hugself, embed=embed)
             else:
                 mention = user.mention
-                embed = discord.Embed(color=user.colour)
+                embed = discord.Embed(color=user.color)
                 embed.set_image(url=image)
                 await ctx.send(content=hug.format(author.mention, mention), embed=embed)
         else:
@@ -69,13 +69,13 @@ class Fun:
         ]
         image = random.choice(choices)
         if user:
-            if user is author:
+            if user == author:
                 embed = discord.Embed(color=0)
                 embed.set_image(url=image)
                 await ctx.send(content=kissself, embed=embed)
             else:
                 mention = user.mention
-                embed = discord.Embed(color=user.colour)
+                embed = discord.Embed(color=user.color)
                 embed.set_image(url=image)
                 await ctx.send(content=kiss.format(author.mention, mention), embed=embed)
         else:
@@ -114,13 +114,13 @@ class Fun:
         ]
         image = random.choice(choices)
         if user:
-            if user is author:
+            if user == author:
                 embed = discord.Embed(color=0)
                 embed.set_image(url=image)
                 await ctx.send(content=slapself, embed=embed)
             else:
                 mention = user.mention
-                embed = discord.Embed(color=user.colour)
+                embed = discord.Embed(color=user.color)
                 embed.set_image(url=image)
                 await ctx.send(content=slap.format(mention, author.mention), embed=embed)
         else:
@@ -138,10 +138,10 @@ class Fun:
                 original = await r.json()
                 pic = original["url"].replace("\\", '/')
                 if not guild:
-                    colour = discord.Colour.default()
+                    color = discord.Color.default()
                 else:
-                    colour = author.colour
-                embed = discord.Embed(description = "[Link]({})".format(pic),colour = colour)
+                    color = author.color
+                embed = discord.Embed(description = "[Link]({})".format(pic), color = color)
                 embed.set_image(url = pic)
                 await ctx.send(content=author.mention, embed = embed)
 
