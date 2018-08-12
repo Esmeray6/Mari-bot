@@ -56,8 +56,7 @@ class General:
     @commands.command()
     async def time(self, ctx, *, name):
         reply = await self.request_time(name)
-        if reply:
-            await ctx.send(reply)
+        await ctx.send(reply)
 
     @commands.command(aliases=['yt'])
     async def youtube(self, ctx, *, search_terms):

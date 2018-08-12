@@ -104,7 +104,7 @@ class Mod:
             elif isinstance(ch, discord.VoiceChannel):
                 await ch.set_permissions(member, overwrite=None)
                 chans += 1
-        await ctx.send("Unmuted {0.name}#{0.discriminator} in all ({1}) channels\nReason: {2}".format(member, chans, reason))
+        await ctx.send("Unmuted {0} in all ({1}) channels\nReason: {2}".format(member, chans, reason))
 
     @commands.command()
     @commands.guild_only()
