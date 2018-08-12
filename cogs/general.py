@@ -152,7 +152,7 @@ class General:
         "Contact the bot owner through the bot."
         app = await self.bot.application_info()
         owner = app.owner
-        embed = discord.Embed(title='Sent by {0.name}#{0.discriminator} ({0.id})'.format(ctx.author), description = msg)
+        embed = discord.Embed(title='Sent by {0} ({0.id})'.format(ctx.author), description = msg)
         await owner.send('`contact` command used.', embed = embed)
 
     @commands.command(aliases=['8ball'])
