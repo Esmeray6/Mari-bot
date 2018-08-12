@@ -133,7 +133,7 @@ class General:
         embed = discord.Embed(title='Server info', color = guild.me.color)
         embed.set_author(name='{} - {}'.format(guild.name, guild.id))
         embed.set_image(url=guild.icon_url_as(format='png'))
-        embed.add_field(name='Owner', value='{0.name}#{0.discriminator}'.format(guild.owner))
+        embed.add_field(name='Owner', value='{}'.format(guild.owner))
         embed.add_field(name='Owner ID', value=guild.owner.id)
         embed.add_field(name='Members', value=guild.member_count)
         embed.add_field(name='Text Channels', value=len(guild.text_channels))
@@ -186,22 +186,20 @@ class General:
     async def avatar(self, ctx, *, user: discord.Member = None):
         "User's avatar."
         author = ctx.author
-        if not user:
-            user = ctx.author
-        retard = "{}#{}'s avatar"
-        embed = discord.Embed(color=user.colour)
-        embed.set_author(name=retard.format(user.name, user.discriminator))
+        user = user or author
+        response = "{}'s avatar".format(user)
+        embed = discord.Embed(color=user.color)
+        embed.set_author(name=response)
         embed.set_image(url=user.avatar_url.replace('.webp', '.png').replace('size=1024', 'size=2048'))
         await ctx.send(embed=embed)
 
     @commands.command()
     async def roles(self, ctx, *, user: discord.Member = None):
         "Check the user's roles. Provide no arguments to check your roles."
-        if not user:
-            user = ctx.author
+        user = user or ctx.author
         desc = '\n'.join((r.name for r in user.roles if r.name != '@everyone'))
         if not desc:
-            await ctx.send('{0.name}#{0.discriminator} has no roles!'.format(user))
+            await ctx.send('{} has no roles!'.format(user))
         elif len(user.roles[1:]) >= 1:
             embed = discord.Embed(
                 title="{}'s roles".format(user.name),
@@ -224,8 +222,7 @@ class General:
         "Get role's permissions."
         s = []
         for perm, value in role.permissions:
-            uh = perm.replace('_', ' ')
-            uhh = uh.replace('Tts', 'TTS')
+            uhh = perm.replace('_', ' ').replace('Tts', 'TTS')
             if not value:
                 s.append('{}: {}'.format(uhh.title(), '❌'))
             else:
