@@ -11,8 +11,7 @@ class Mod:
     @commands.bot_has_permissions(ban_members=True)
     async def hackban(self, ctx, user_id: int, *, reason = None):
         """Ban the user that is not in the current server."""
-        if not reason:
-            reason = "Reason was not specified."
+        reason = reason or "Reason was not specified."
         try:
             user = await self.bot.get_user_info(user_id)
         except discord.NotFound:
@@ -60,8 +59,7 @@ class Mod:
     async def prune(self, ctx, amount: int, channel: discord.TextChannel = None):
         """Delete X messages in specified channel.
         Defaults to current channel if none was specified."""
-        if not channel:
-            channel = ctx.channel
+        channel = channel or ctx.channel
         msgs = []
         async for msg in channel.history(limit=amount + 1):
             msgs.append(msg)
@@ -81,8 +79,7 @@ class Mod:
         if not ctx.author.guild_permissions.mute_members:
             await ctx.send("You are missing following permissions:\nMute Members") # Because @commands.has_permissions() returns channel permissions or something.
             return
-        if not reason:
-            reason = "Reason was not specified."
+        reason = reason or "Reason was not specified."
         chans = 0
         if member == ctx.author:
             await ctx.send("You are not allowed to unmute " + ctx.author.mention + '.')
@@ -117,8 +114,7 @@ class Mod:
         if not ctx.author.guild_permissions.mute_members:
             await ctx.send("You are missing following permissions:\nMute Members") # Because @commands.has_permissions() returns channel permissions or something.
             return
-        if not reason:
-            reason = "Reason was not specified."
+        reason = reason or "Reason was not specified."
         chans = 0
         if member == ctx.author:
             await ctx.send("You are not allowed to mute " + ctx.author.mention + '.')
@@ -170,8 +166,7 @@ class Mod:
         elif ctx.guild.me.top_role == member.top_role:
             await ctx.send("My highest role is the same as the member's one. I can't kick them.")
             return
-        if not reason:
-            reason = "Reason was not specified."
+        reason = reason or "Reason was not specified."
         try:
             await member.kick(reason=reason + ' -' + '{0.name}#{0.discriminator}'.format(ctx.author))
             await ctx.send("Kicked {0.name}#{0.discriminator}".format(member))
@@ -190,16 +185,14 @@ class Mod:
                 member = await commands.MemberConverter().convert(ctx, member)
             except commands.CommandError:
                 await ctx.send("No member found.")
-            if not reason:
-                reason = 'Reason was not specified.'
+            reason = reason or "Reason was not specified."
             await member.ban(delete_message_days=days, reason=str(reason) + ' -' + '{0.name}#{0.discriminator}'.format(ctx.author))
             await ctx.send("Banned {0.name}#{0.discriminator}.".format(member))
         else:
             try:
                 days = await commands.MemberConverter().convert(ctx, days)
                 member = days
-                if not reason:
-                    reason = 'Reason was not specified.'
+                reason = reason or "Reason was not specified."
                 await member.ban(delete_message_days=1, reason=str(reason) + ' -' + '{0.name}#{0.discriminator}'.format(ctx.author))
                 await ctx.send("Banned {0.name}#{0.discriminator}.".format(member))
             except commands.CommandError:
