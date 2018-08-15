@@ -126,6 +126,15 @@ class Owner:
         em.add_field(name='Account Type',value="User" if not user.bot else "Bot")
         await ctx.send(embed=em)
 
+    @commands.command(hidden=True)
+    @commands.is_owner()
+    async def cogs(self, ctx):
+        cogs = list(self.bot.cogs)
+        embed = discord.Embed(
+            title="{} loaded cogs".format(len(cogs)),
+            description=", ".join([cog for cog in cogs]))
+        await ctx.send(embed=embed)
+
     @commands.group(hidden=True)
     async def cog(self, ctx):
         "Manage cogs."
