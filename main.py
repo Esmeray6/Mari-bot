@@ -21,6 +21,7 @@ for extension in initial_extensions:
         print('Failed to load extension {}.'.format(extension), file=sys.stderr)
         traceback.print_exc()
 
+@bot.event
 async def on_command_error(ctx, error):
     if isinstance(error, commands.MissingRequiredArgument):
         await missing_argument(ctx)
@@ -36,6 +37,8 @@ async def on_command_error(ctx, error):
     elif isinstance(error, commands.BotMissingPermissions):
         if error.missing_perms:
             await ctx.send("The bot is missing following permissions:\n" + '\n'.join(perm for perm in error.missing_perms).replace('_', ' ').title())
+    elif isinstance(error, commands.NoPrivateMessage):
+        await ctx.author.send("Command `{}` cannot be used in private messages.".format(ctx.command))
     elif not isinstance(error, commands.CommandNotFound):
         print('Ignoring exception in command {}:'.format(ctx.command), file=sys.stderr)
         traceback.print_exception(type(error), error, error.__traceback__, file=sys.stderr)
