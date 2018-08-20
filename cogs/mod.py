@@ -21,9 +21,9 @@ class Mod:
             if role.mentionable:
                 await ctx.send(f"Role {role.mention} has been mentioned by {ctx.author.mention}.")
             else:
-                await role.edit(mentionable=True)
+                await role.edit(mentionable=True, reason="Command mentionrole usage.")
                 await ctx.send(f"Role {role.mention} has been mentioned by {ctx.author.mention}.")
-                await role.edit(mentionable=False)
+                await role.edit(mentionable=False, reason="Command mentionrole usage.")
 
     @commands.command()
     @commands.guild_only()
