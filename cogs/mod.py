@@ -10,6 +10,8 @@ class Mod:
     @commands.has_permissions(manage_roles=True)
     @commands.bot_has_permissions(manage_roles=True)
     async def mentionrole(self, ctx, *, role: discord.Role):
+        """Mention the role through the bot.
+        If the role is not mentionable, bot will make it mentionable for a second."""
         if role > ctx.guild.me.top_role:
             await ctx.send(f"Role **{role}** is higher than my highest role. I can't let you use this command.")
         elif role == ctx.guild.me.top_role:
@@ -217,7 +219,6 @@ class Mod:
                 await ctx.send("Banned {0.name}#{0.discriminator}.".format(member))
             except commands.CommandError:
                 await ctx.send("No member found.")
-
 
 def setup(bot):
     bot.add_cog(Mod(bot))
