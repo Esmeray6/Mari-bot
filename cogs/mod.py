@@ -5,6 +5,26 @@ class Mod:
     def __init__(self, bot):
         self.bot = bot
 
+    @commands.command(aliases=['menro'])
+    @commands.guild_only()
+    @commands.has_permissions(manage_roles=True)
+    @commands.bot_has_permissions(manage_roles=True)
+    async def mentionrole(self, ctx, *, role: discord.Role):
+        if role > ctx.guild.me.top_role:
+            await ctx.send(f"Role **{role}** is higher than my highest role. I can't let you use this command.")
+        elif role == ctx.guild.me.top_role:
+            await ctx.send(f"Role **{role}** is my highest role. I can't let you use this command.")
+        else:
+            if role.name == "@everyone":
+                await ctx.send(f"Too bad, {ctx.author.mention} tried to mention everyone. :^)")
+                return
+            if role.mentionable:
+                await ctx.send(f"Role {role.mention} has been mentioned by {ctx.author.mention}.")
+            else:
+                await role.edit(mentionable=True)
+                await ctx.send(f"Role {role.mention} has been mentioned by {ctx.author.mention}.")
+                await role.edit(mentionable=False)
+
     @commands.command()
     @commands.guild_only()
     @commands.has_permissions(ban_members=True)
