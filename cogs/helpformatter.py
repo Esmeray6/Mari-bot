@@ -18,10 +18,19 @@ class Help:
                 if smth != 'Help':
                     s = list(self.bot.get_cog_commands(smth))
                     if s:
-                        paginator.add_line('' + s[0].cog_name + ':')
+                        paginator.add_line(f"{s[0].cog_name}:")
                         for c in s:
+                            if ctx.guild:
+                                if c.name == "mute" and not ctx.author.guild_permissions.mute_members or c.name == "unmute" and not ctx.author.guild_permissions.mute_members:
+                                    continue
+                            else:
+                                pass
                             if not c.hidden:
-                                paginator.add_line('    {} - {}'.format(str(c.name), str(c.help)))
+                                try:
+                                    await c.can_run(ctx)
+                                    paginator.add_line(f'    {c.name} - {c.short_doc}')
+                                except:
+                                    pass
             paginator.add_line(postf)
             for page in paginator.pages:
                 await ctx.send(page)
@@ -30,7 +39,7 @@ class Help:
                 if command not in self.bot.cogs:
                     cmd = self.bot.get_command(command.replace('*', '').replace(self.bot.user.mention, ''))
                     if cmd:
-                        paginator.add_line(ctx.prefix.replace(self.bot.user.mention, '@{}#{}'.format(self.bot.user.name, self.bot.user.discriminator)) + str(cmd.signature) + '\n\n    ' + str(cmd.help))
+                        paginator.add_line(f"{ctx.prefix.replace(self.bot.user.mention, f'@{self.bot.user.name}#{self.bot.user.discriminator} ')}{cmd.signature}\n\n    {cmd.help}")
                         for page in paginator.pages:
                             await ctx.send(page)
                     else:
@@ -38,16 +47,16 @@ class Help:
                         await ctx.send(result)
                 else:
                     the_cog = list(self.bot.get_cog_commands(command))
-                    paginator.add_line(the_cog[0].cog_name + ':')
+                    paginator.add_line(f"{the_cog[0].cog_name}:") 
                     for cmd in the_cog:
                         if not cmd.hidden:
-                            paginator.add_line(''.join('    {} - {}'.format(cmd.name, str(cmd.help))))
+                            paginator.add_line(''.join(f'    {cmd.name} - {cmd.help}'))
                     paginator.add_line(postf)
                     for page in paginator.pages:
                         await ctx.send(page)
             else:
                 cmd = self.bot.get_command(command.replace('*', '').replace(self.bot.user.mention, ''))
-                result += ctx.prefix.replace(self.bot.user.mention, '@{}#{}'.format(self.bot.user.name, self.bot.user.discriminator)) + str(cmd.signature) + '\n\n    ' + str(cmd.help)
+                result += f"{ctx.prefix.replace(self.bot.user.mention, f'@{self.bot.user.name}#{self.bot.user.discriminator} ')}{cmd.signature}\n\n    {cmd.help}"
                 await ctx.send(pref + result + postfix)
 
 def setup(bot):
