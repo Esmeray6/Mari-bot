@@ -181,13 +181,12 @@ class General:
         await ctx.send(embed=data)
 
     @commands.command(aliases=['av'])
-    @commands.guild_only()
-    async def avatar(self, ctx, *, user: discord.Member = None):
+    async def avatar(self, ctx, *, user: discord.User = None):
         "User's avatar."
         author = ctx.author
         user = user or author
         response = "{}'s avatar".format(user)
-        embed = discord.Embed(color=user.color)
+        embed = discord.Embed(color=ctx.guild.me.color if ctx.guild else 16753920)
         embed.set_author(name=response)
         embed.set_image(url=user.avatar_url.replace('.webp', '.png').replace('size=1024', 'size=2048'))
         await ctx.send(embed=embed)
