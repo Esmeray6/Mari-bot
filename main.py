@@ -28,9 +28,9 @@ async def on_command_error(ctx, error):
     elif isinstance(error, commands.BadArgument):
         await bad_argument(ctx)
     elif isinstance(error, commands.DisabledCommand):
-        await ctx.send("That command is disabled.")
+        await ctx.send(f"Command {ctx.command} is disabled.")
     elif isinstance(error, commands.NotOwner):
-        await ctx.send("You are not shivaco. :^)")
+        await ctx.send("You are not bot owner.")
     elif isinstance(error, commands.MissingPermissions):
         if error.missing_perms:
             await ctx.send("You are missing following permissions:\n" + '\n'.join(perm for perm in error.missing_perms).replace('_', ' ').title())
