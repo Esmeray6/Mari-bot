@@ -254,7 +254,7 @@ class General:
         author = ctx.author
         uptime_time = self.get_bot_uptime()
         if self.bot.user.id == 458607948755763200:
-            support_stuff = '[Support server](https://discord.gg/f5nDpp6)\n[Patreon](https://www.patreon.com/shivaco)\n[Vote for {0.name} on discordbots.org](https://discordbots.org/bot/{0.id}/vote)'.format(self.bot.user)
+            support_stuff = f'[Support server](https://discord.gg/f5nDpp6)\n[Patreon](https://www.patreon.com/shivaco)\n[Vote for {self.bot.user.name} on discordbots.org](https://discordbots.org/bot/{self.bot.user.id}/vote)'
         else:
             support_stuff = '[Support server](https://discord.gg/f5nDpp6)\n[Patreon](https://www.patreon.com/shivaco)'
         servers = len(self.bot.guilds)
@@ -264,7 +264,7 @@ class General:
             embed_color = ctx.guild.me.color
         else:
             embed_color = 16753920
-        embed = discord.Embed(description = '**Uptime:** {}\n**Memory**: {} MB'.format(uptime_time, mem), color = embed_color)
+        embed = discord.Embed(description = f'**Uptime:** {uptime_time}\n**Memory**: {mem} MB', color = embed_color)
         embed.set_author(
             name = 'Source Code',
             url = 'https://github.com/shivaco/Mari-bot',
