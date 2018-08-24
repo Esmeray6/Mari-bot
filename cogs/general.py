@@ -51,7 +51,7 @@ class General:
                 elif status == 'OVER_QUERY_LIMIT': # Because yes
                     return "Try again later."
                 elif status == 'ZERO_RESULTS':
-                    return "Unfortunately, that does not exist."
+                    return "Unfortunately, that location does not exist."
 
     @commands.command()
     async def time(self, ctx, *, name):
