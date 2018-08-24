@@ -19,7 +19,7 @@ class Hentai:
                     async with session.get("https://api.computerfreaker.cf/v1/hentai") as r:
                         original = await r.json()
                         pic = original["url"]
-                        embed = discord.Embed(description = "[Link]({})".format(pic), color = author.color)
+                        embed = discord.Embed(description = f"[Link]({pic})", color = author.color)
                         embed.set_image(url = pic)
                         await ctx.send(content = author.mention, embed = embed)
             else:
