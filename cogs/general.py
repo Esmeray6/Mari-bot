@@ -48,7 +48,7 @@ class General:
                         time = datetime.datetime.utcnow() + datetime.timedelta(seconds=daylight_saving) + datetime.timedelta(seconds=offset)
                         time = time.strftime('%H:%M')
                         return "It is currently **{}** in **{}**.".format(time, formatted_address)
-                elif status == 'OVER_QUERY_LIMIT': # Because yes
+                elif status == 'OVER_QUERY_LIMIT':
                     return "Try again later."
                 elif status == 'ZERO_RESULTS':
                     return "Unfortunately, that location does not exist."
