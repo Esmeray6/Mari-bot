@@ -55,6 +55,7 @@ class General:
 
     @commands.command()
     async def time(self, ctx, *, name):
+        "Show current time in specified location."
         reply = await self.request_time(name)
         await ctx.send(reply)
 
