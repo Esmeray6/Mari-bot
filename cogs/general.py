@@ -243,7 +243,7 @@ class General:
 
     @commands.command()
     async def stats(self, ctx):
-        "Bot's uptime and stuff."
+        "Bot uptime and stuff."
         channels = 0
         members = 0
         for guild in self.bot.guilds:
