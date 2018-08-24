@@ -129,6 +129,7 @@ class Owner:
     @commands.command(hidden=True)
     @commands.is_owner()
     async def cogs(self, ctx):
+        "Check currently loaded cogs."
         cogs = list(self.bot.cogs)
         embed = discord.Embed(
             title="{} loaded cogs".format(len(cogs)),
