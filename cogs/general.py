@@ -208,11 +208,10 @@ class General:
     @commands.command()
     async def invite(self, ctx):
         "A link that lets you invite this bot your server."
-        if ctx.guild.id != 110373943822540800:
-            await ctx.send(
-                ctx.author.mention +
-                ' **OAuth2 link to invite {} bot to your server:** <https://discordapp.com/oauth2/authorize?client_id={}&permissions=469887047&scope=bot>'.format(self.bot.user.name, self.bot.user.id)
-            )
+        await ctx.send(
+            ctx.author.mention +
+            ' **OAuth2 link to invite {} bot to your server:** <https://discordapp.com/oauth2/authorize?client_id={}&permissions=469887047&scope=bot>'.format(self.bot.user.name, self.bot.user.id)
+        )
 
     @commands.command(aliases=['roleperms', 'role_permissions', 'rolepermissions']) # WHY SO MANY ALIASES
     @commands.guild_only()
