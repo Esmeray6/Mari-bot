@@ -7,6 +7,8 @@ class Help:
 
     @commands.command(name='help', aliases=['h'])
     async def _help(self, ctx, *, command: str=None):
+        """Get help on a specified cog or command.
+        Don't put any arguments to get a list of available commands."""
         pref = '```\n'
         postf = f'Get info on a command group, category or just a command with @{self.bot.user.name}#{self.bot.user.discriminator} help <Category>/<Command>/<Command group> or *help <Category>/<Command>/<Command group>'
         result = ''
