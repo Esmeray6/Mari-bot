@@ -52,7 +52,7 @@ class Help:
                     paginator.add_line(f"{the_cog[0].cog_name}:") 
                     for cmd in the_cog:
                         if not cmd.hidden:
-                            paginator.add_line(''.join(f'    {cmd.name} - {cmd.help}'))
+                            paginator.add_line(f'    {cmd.name} - {cmd.help}')
                     paginator.add_line(postf)
                     for page in paginator.pages:
                         await ctx.send(page)
