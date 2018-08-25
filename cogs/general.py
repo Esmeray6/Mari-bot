@@ -123,21 +123,22 @@ class General:
         else:
             feats = 'None'
         if guild.emojis:
-            emotes_list = '\n'.join(['{0.name} - <:{0.name}:{0.id}>'.format(emoji) for emoji in guild.emojis[0:10]])
+            emotes_list = ', '.join(['`{0.name}` - <:{0.name}:{0.id}>'.format(emoji) for emoji in guild.emojis[0:10]])
         else:
             emotes_list = "None"
-        if guild.roles and len(guild.roles) != 1:
+        if len(guild.roles) >= 1:
             roles_list = ', '.join(['`{}`'.format(role.name) for role in guild.role_hierarchy if role.name != '@everyone'])
         else:
             roles_list = "None"
         embed = discord.Embed(title='Server info', color = guild.me.color)
         embed.set_author(name='{} - {}'.format(guild.name, guild.id))
-        embed.set_image(url=guild.icon_url_as(format='png'))
+        embed.set_thumbnail(url=guild.icon_url_as(format='png'))
         embed.add_field(name='Owner', value='{}'.format(guild.owner))
         embed.add_field(name='Owner ID', value=guild.owner.id)
         embed.add_field(name='Members', value=guild.member_count)
         embed.add_field(name='Text Channels', value=len(guild.text_channels))
         embed.add_field(name='Voice Channels', value=len(guild.voice_channels))
+        embed.add_field(name='Created at', value=guild.created_at.strftime('%d.%m.%Y %H:%M'))
         embed.add_field(name='Categories', value=len(guild.categories))
         embed.add_field(name='Region', value=server_region)
         embed.add_field(name='Roles (' + str(len(guild.roles)) + ')', value=roles_list)
