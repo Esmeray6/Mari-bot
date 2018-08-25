@@ -126,7 +126,7 @@ class General:
             emotes_list = ', '.join(['`{0.name}` - <:{0.name}:{0.id}>'.format(emoji) for emoji in guild.emojis[0:10]])
         else:
             emotes_list = "None"
-        if len(guild.roles) >= 1:
+        if len(guild.roles) > 1:
             roles_list = ', '.join(['`{}`'.format(role.name) for role in guild.role_hierarchy if role.name != '@everyone'])
         else:
             roles_list = "None"
