@@ -22,17 +22,8 @@ class Help:
                     if s:
                         paginator.add_line(f"{s[0].cog_name}:")
                         for c in s:
-                            if ctx.guild:
-                                if c.name == "mute" and not ctx.author.guild_permissions.mute_members or c.name == "unmute" and not ctx.author.guild_permissions.mute_members:
-                                    continue
-                            else:
-                                pass
                             if not c.hidden:
-                                try:
-                                    await c.can_run(ctx)
-                                    paginator.add_line(f'    {c.name} - {c.short_doc}')
-                                except:
-                                    pass
+                                paginator.add_line(f'    {c.name} - {c.short_doc}')
             paginator.add_line(postf)
             for page in paginator.pages:
                 await ctx.send(page)
