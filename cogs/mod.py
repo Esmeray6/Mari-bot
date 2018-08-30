@@ -87,7 +87,7 @@ class Mod:
             msgs.append(msg)
         try:
             await channel.delete_messages(msgs)
-            await ctx.send("Deleted {} {} in {}.".format(amount, "message" if len(msgs) == 2 else "messages", channel.mention))
+            await ctx.send("Deleted {} {} in {}.".format(amount, "message" if len(msgs) == 2 else "messages", channel.mention), delete_after=5.0)
         except discord.ClientException:
             await ctx.send("The number of messages to delete is more than 100.")
         except discord.HTTPException:
