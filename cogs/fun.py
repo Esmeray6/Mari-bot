@@ -1,6 +1,6 @@
 import discord
 from discord.ext import commands
-import aiohttp
+#import aiohttp
 import random
 
 class Fun:
@@ -30,15 +30,8 @@ class Fun:
             'https://i.imgur.com/RIrOf2i.gif', 'https://i.imgur.com/x6855CW.gif'
         ]
         image = random.choice(choices)
-        api_or = ['https://api.computerfreaker.cf/v1/hug', image]
-        chose = random.choice(api_or)
-        if chose == api_or[0]:
-            async with aiohttp.ClientSession() as session:
-                async with session.get(chose) as r:
-                    resp = await r.json()
-                    image = resp["url"]
         if user:
-            if user == author:
+            if user is author:
                 embed = discord.Embed(color=0)
                 embed.set_image(url=image)
                 await ctx.send(content=hugself, embed=embed)
@@ -128,22 +121,22 @@ class Fun:
             embed.set_image(url=image)
             await ctx.send(content=slapself, embed=embed)
 
-    @commands.command()
-    async def anime(self, ctx):
-        """A random anime picture."""
-        author = ctx.author
-        guild = ctx.guild
-        async with aiohttp.ClientSession() as session:
-            async with session.get("https://api.computerfreaker.cf/v1/anime") as r:
-                original = await r.json()
-                pic = original["url"].replace("\\", '/')
-                if not guild:
-                    color = discord.Color.default()
-                else:
-                    color = author.color
-                embed = discord.Embed(description = "[Link]({})".format(pic), color = color)
-                embed.set_image(url = pic)
-                await ctx.send(content=author.mention, embed = embed)
+    # @commands.command()
+    # async def anime(self, ctx):
+    #     """A random anime picture."""
+    #     author = ctx.author
+    #     guild = ctx.guild
+    #     async with aiohttp.ClientSession() as session:
+    #         async with session.get("https://api.computerfreaker.cf/v1/anime") as r:
+    #             original = await r.json()
+    #             pic = original["url"].replace("\\", '/')
+    #             if not guild:
+    #                 color = discord.Color.default()
+    #             else:
+    #                 color = author.color
+    #             embed = discord.Embed(description = "[Link]({})".format(pic), color = color)
+    #             embed.set_image(url = pic)
+    #             await ctx.send(content=author.mention, embed = embed)
 
     @commands.command()
     async def nicememe(self, ctx):
