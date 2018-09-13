@@ -32,7 +32,7 @@ class General:
                 return "The owner hasn't setup Google API Key."
             file.close()
         async with aiohttp.ClientSession() as session:
-            async with session.get('https://maps.googleapis.com/maps/api/geocode/json?address={}?key={}'.format(location, key)) as r:
+            async with session.get(f"https://maps.googleapis.com/maps/api/geocode/json?address={location}?key={key}") as r:
                 response = await r.json()
                 resp = response["results"]
                 status = response["status"]
@@ -41,13 +41,13 @@ class General:
                     formatted_address = resp[0]["formatted_address"]
                     lat = resp[0]["geometry"]["location"]["lat"]
                     lng = resp[0]["geometry"]["location"]["lng"]
-                    async with session.get("https://maps.googleapis.com/maps/api/timezone/json?location={},{}&timestamp={}&key={}".format(lat, lng, datetime.datetime.utcnow().timestamp(), key)) as city_info:
+                    async with session.get(f"https://maps.googleapis.com/maps/api/timezone/json?location={lat},{lng}&timestamp={datetime.datetime.utcnow().timestamp()}&key={key}") as city_info:
                         info = await city_info.json()
                         daylight_saving = info["dstOffset"]
                         offset = info["rawOffset"]
                         time = datetime.datetime.utcnow() + datetime.timedelta(seconds=daylight_saving) + datetime.timedelta(seconds=offset)
                         time = time.strftime('%H:%M')
-                        return "It is currently **{}** in **{}**.".format(time, formatted_address)
+                        return f"It is currently **{time}** in **{formatted_address}**."
                 elif status == 'OVER_QUERY_LIMIT':
                     return "Try again later."
                 elif status == 'ZERO_RESULTS':
@@ -64,9 +64,9 @@ class General:
         "Find YouTube video with specified title."
         try:
             query_string = urllib.parse.urlencode({"search_query" : search_terms})
-            html_content = urllib.request.urlopen("http://www.youtube.com/results?" + query_string)
+            html_content = urllib.request.urlopen(f"http://www.youtube.com/results?{query_string}")
             search_results = re.findall(r'href=\"\/watch\?v=(.{11})', html_content.read().decode())
-            await ctx.send("http://www.youtube.com/watch?v=" + search_results[0])
+            await ctx.send(f"http://www.youtube.com/watch?v={search_results[0]}")
         except IndexError:
             await ctx.send("No video was found.")
 
@@ -123,15 +123,15 @@ class General:
         else:
             feats = 'None'
         if guild.emojis:
-            emotes_list = ', '.join(['`{0.name}` - <:{0.name}:{0.id}>'.format(emoji) for emoji in guild.emojis[0:10]])
+            emotes_list = ', '.join([f'`{emoji.name}` - <:{emoji.name}:{emoji.id}>' for emoji in guild.emojis[0:10]])
         else:
             emotes_list = "None"
         if len(guild.roles) > 1:
-            roles_list = ', '.join(['`{}`'.format(role.name) for role in guild.role_hierarchy if role.name != '@everyone'])
+            roles_list = ', '.join([f'`{role.name}`' for role in guild.role_hierarchy if role.name != '@everyone'])
         else:
             roles_list = "None"
         embed = discord.Embed(title='Server info', color = guild.me.color)
-        embed.set_author(name='{} - {}'.format(guild.name, guild.id))
+        embed.set_author(name=f'{guild.name} - {guild.id}')
         embed.set_thumbnail(url=guild.icon_url_as(format='png'))
         embed.add_field(name='Owner', value='{}'.format(guild.owner))
         embed.add_field(name='Owner ID', value=guild.owner.id)
@@ -152,11 +152,11 @@ class General:
     async def contact(self, ctx, *, msg):
         "Contact the bot owner through the bot."
         owner = self.bot.owner
-        embed = discord.Embed(title='Sent by {0} ({0.id})'.format(ctx.author), description = msg)
+        embed = discord.Embed(title=f'Sent by {ctx.author} ({ctx.author.id})', description = msg)
         await owner.send('`contact` command used.', embed = embed)
 
     @commands.command(aliases=['8ball'])
-    async def eightball(self, ctx, *, question: str):
+    async def eightball(self, ctx, *, question):
         "Ask 8ball a question."
         result = random.choice(self.ball)
         if ctx.guild:
@@ -173,7 +173,7 @@ class General:
         t1 = time.perf_counter()
         await ctx.channel.trigger_typing()
         t2 = time.perf_counter()
-        thedata = (' 🏓 **Pong.**\nTime: ' + str(round((t2 - t1) * 1000))) + ' ms'
+        thedata = f'🏓 **Pong.**\nTime: {str(round((t2 - t1) * 1000))}ms'
         if ctx.guild:
             embed_color = ctx.guild.me.color
         else:
@@ -186,7 +186,7 @@ class General:
         "User's avatar."
         author = ctx.author
         user = user or author
-        response = "{}'s avatar".format(user)
+        response = f"{user}"
         embed = discord.Embed(color=ctx.guild.me.color if ctx.guild else 16753920)
         embed.set_author(name=response)
         embed.set_image(url=user.avatar_url.replace('.webp', '.png').replace('size=1024', 'size=2048'))
@@ -198,10 +198,10 @@ class General:
         user = user or ctx.author
         desc = '\n'.join((r.name for r in user.roles if r.name != '@everyone'))
         if not desc:
-            await ctx.send('{} has no roles!'.format(user))
+            await ctx.send(f'{user} has no roles!')
         elif len(user.roles[1:]) >= 1:
             embed = discord.Embed(
-                title="{}'s roles".format(user.name),
+                title=f"{user} roles",
                 description=desc,
                 colour=user.colour)
             await ctx.send(ctx.author.mention, embed=embed)
@@ -209,10 +209,7 @@ class General:
     @commands.command()
     async def invite(self, ctx):
         "A link that lets you invite this bot your server."
-        await ctx.send(
-            ctx.author.mention +
-            ' **OAuth2 link to invite {} bot to your server:** <https://discordapp.com/oauth2/authorize?client_id={}&permissions=469887047&scope=bot>'.format(self.bot.user.name, self.bot.user.id)
-        )
+        await ctx.send(f'{ctx.author.mention} **OAuth2 link to invite {self.bot.user.name} bot to your server:** <https://discordapp.com/oauth2/authorize?client_id={self.bot.user.id}&permissions=469887047&scope=bot>')
 
     @commands.command(aliases=['roleperms', 'role_permissions', 'rolepermissions']) # WHY SO MANY ALIASES
     @commands.guild_only()
