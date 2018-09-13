@@ -10,9 +10,17 @@ from typing import Iterable, List
 path = 'settings.json'
 cogs_path = 'cog_settings.json'
 
+# async def get_prefix(bot, message):
+#     if message.guild:
+#         return commands.when_mentioned_or('*')(bot, message)
+#     else:
+#         return commands.when_mentioned_or('.')(bot, message)
+
+# bot = commands.Bot(command_prefix=get_prefix)
 bot = commands.Bot(command_prefix=commands.when_mentioned_or('*'))
 bot.remove_command('help')
 bot.uptime = datetime.datetime.utcnow()
+
 initial_extensions = json.load(open(cogs_path, 'r'))["enabled_cogs"]
 for extension in initial_extensions:
     try:
