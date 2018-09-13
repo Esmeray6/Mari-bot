@@ -41,7 +41,7 @@ class Mod:
             return
         try:
             ban_status = await ctx.guild.get_ban(user)
-            await ctx.send("{} is banned already.".format(user))
+            await ctx.send(f"{user} is banned already.")
             return
         except discord.NotFound:
             pass
@@ -53,7 +53,7 @@ class Mod:
             return
         else:
             await ctx.guild.ban(user, reason = reason, delete_message_days = 0)
-            await ctx.send("{} was banned from the server.".format(user))
+            await ctx.send(f"{user} was banned from the server.")
 
     @commands.command()
     @commands.guild_only()
@@ -69,10 +69,10 @@ class Mod:
         try:
             ban_status = await ctx.guild.get_ban(user)
         except discord.NotFound:
-            await ctx.send("{} is not banned.".format(user))
+            await ctx.send(f"{user} is not banned.")
             return
-        await ctx.guild.unban(user, reason="Unbanned by {}".format(ctx.author))
-        await ctx.send("Unbanned {}.".format(user))
+        await ctx.guild.unban(user, reason=f"Unbanned by {ctx.author}")
+        await ctx.send(f"Unbanned {user}.")
 
     @commands.command(aliases=['purge'])
     @commands.guild_only()
@@ -87,7 +87,7 @@ class Mod:
             msgs.append(msg)
         try:
             await channel.delete_messages(msgs)
-            await ctx.send("Deleted {} {} in {}.".format(amount, "message" if len(msgs) == 2 else "messages", channel.mention), delete_after=5.0)
+            await ctx.send(f"Deleted {amount} {'message' if len(msgs) == 2 else 'messages'} in {channel.mention}.", delete_after=5)
         except discord.ClientException:
             await ctx.send("The number of messages to delete is more than 100.")
         except discord.HTTPException:
@@ -104,7 +104,7 @@ class Mod:
         reason = reason or "Reason was not specified."
         chans = 0
         if member == ctx.author:
-            await ctx.send("You are not allowed to unmute " + ctx.author.mention + '.')
+            await ctx.send(f"You are not allowed to unmute {ctx.author.mention}.")
             return
         if ctx.author.top_role < member.top_role:
             await ctx.send("Your highest role is lower than the member's one. I can't let you unmute them.")
@@ -126,7 +126,7 @@ class Mod:
             elif isinstance(ch, discord.VoiceChannel):
                 await ch.set_permissions(member, overwrite=None)
                 chans += 1
-        await ctx.send("Unmuted {0} in all ({1}) channels\nReason: {2}".format(member, chans, reason))
+        await ctx.send(f"Unmuted {member} in all ({chans}) channels\nReason: {reason}")
 
     @commands.command()
     @commands.guild_only()
@@ -139,7 +139,7 @@ class Mod:
         reason = reason or "Reason was not specified."
         chans = 0
         if member == ctx.author:
-            await ctx.send("You are not allowed to mute " + ctx.author.mention + '.')
+            await ctx.send(f"You are not allowed to mute {ctx.author.mention}.")
             return
         if ctx.author.top_role < member.top_role:
             await ctx.send("Your highest role is lower than the member's one. I can't let you mute them.")
@@ -165,7 +165,7 @@ class Mod:
                 overwrite.speak = False
                 await ch.set_permissions(member, overwrite=overwrite)
                 chans += 1
-        await ctx.send("Muted {0.name}#{0.discriminator} in all ({1}) channels\nReason: {2}".format(member, chans, reason))
+        await ctx.send(f"Muted {member} in all ({chans}) channels\nReason: {reason}")
 
     @commands.command()
     @commands.guild_only()
@@ -174,7 +174,7 @@ class Mod:
     async def kick(self, ctx, member: discord.Member, *, reason = None):
         """Kick specified user from the server"""
         if member == ctx.author:
-            await ctx.send("You are not allowed to kick " + ctx.author.mention + '.')
+            await ctx.send(f"You are not allowed to kick {ctx.author.mention}.")
             return
         if ctx.author.top_role < member.top_role:
             await ctx.send("Your highest role is lower than the member's one. I can't let you kick them.")
@@ -190,17 +190,19 @@ class Mod:
             return
         reason = reason or "Reason was not specified."
         try:
-            await member.kick(reason=reason + ' -' + '{0.name}#{0.discriminator}'.format(ctx.author))
-            await ctx.send("Kicked {0.name}#{0.discriminator}".format(member))
+            await member.kick(reason=f"{reason} -{ctx.author}")
         except discord.Forbidden:
             await ctx.send("Couldn't kick the user.") # Because full error handling is important. :^)
+            return
+        await ctx.send(f"Kicked {member}.")
 
     @commands.command()
     @commands.guild_only()
     @commands.has_permissions(ban_members=True)
     @commands.bot_has_permissions(ban_members=True)
-    async def ban(self, ctx, days: str, member: str = None, *, reason = None):
-        """Ban member from current server and delete their messages from the server for X days. If you specify a member in "days" argument, the member will be banned and their messages for 1 day will be deleted."""
+    async def ban(self, ctx, days, member = None, *, reason = None):
+        """Ban member from current server and delete their messages from the server for X days.
+        If you specify a member in "days" argument, the member will be banned and their messages for 1 day will be deleted."""
         if days.isdigit():
             days = int(days)
             try:
@@ -208,15 +210,15 @@ class Mod:
             except commands.CommandError:
                 await ctx.send("No member found.")
             reason = reason or "Reason was not specified."
-            await member.ban(delete_message_days=days, reason=str(reason) + ' -' + '{0.name}#{0.discriminator}'.format(ctx.author))
-            await ctx.send("Banned {0.name}#{0.discriminator}.".format(member))
+            await member.ban(delete_message_days=days, reason=f"{reason} -{ctx.author}")
+            await ctx.send(f"Banned {member}.")
         else:
             try:
                 days = await commands.MemberConverter().convert(ctx, days)
                 member = days
                 reason = reason or "Reason was not specified."
-                await member.ban(delete_message_days=1, reason=str(reason) + ' -' + '{0.name}#{0.discriminator}'.format(ctx.author))
-                await ctx.send("Banned {0.name}#{0.discriminator}.".format(member))
+                await member.ban(delete_message_days=1, reason=f"{reason} -{ctx.author}")
+                await ctx.send(f"Banned {member}.")
             except commands.CommandError:
                 await ctx.send("No member found.")
 

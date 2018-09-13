@@ -133,7 +133,7 @@ class General:
         embed = discord.Embed(title='Server info', color = guild.me.color)
         embed.set_author(name=f'{guild.name} - {guild.id}')
         embed.set_thumbnail(url=guild.icon_url_as(format='png'))
-        embed.add_field(name='Owner', value='{}'.format(guild.owner))
+        embed.add_field(name='Owner', value=guild.owner)
         embed.add_field(name='Owner ID', value=guild.owner.id)
         embed.add_field(name='Members', value=guild.member_count)
         embed.add_field(name='Text Channels', value=len(guild.text_channels))
@@ -214,14 +214,14 @@ class General:
     @commands.command(aliases=['roleperms', 'role_permissions', 'rolepermissions']) # WHY SO MANY ALIASES
     @commands.guild_only()
     async def role_perms(self, ctx, * , role: discord.Role):
-        "Get role's permissions."
+        "Get role permissions."
         s = []
         for perm, value in role.permissions:
             uhh = perm.replace('_', ' ').replace('Tts', 'TTS')
             if not value:
-                s.append('{}: {}'.format(uhh.title(), '❌'))
+                s.append(f'{uhh.title()}: ❌')
             else:
-                s.append('{}: {}'.format(uhh.title(), '✅'))
+                s.append(f'{uhh.title()}: ✅')
         await ctx.send('```\n{}\n```'.format('\n'.join(s)))
 
     def get_bot_uptime(self):
