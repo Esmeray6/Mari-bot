@@ -94,6 +94,8 @@ async def bad_argument(ctx) -> List[discord.Message]:
 async def on_ready():
     print('{0}\nUser ID: {0.id}'.format(bot.user))
     status = '*help or @{} help'.format(bot.user)
+    await bot.wait_until_ready()
+    bot.owner = (await bot.application_info()).owner
     await bot.change_presence(activity=discord.Game(status))
 
 @bot.event

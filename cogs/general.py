@@ -151,8 +151,7 @@ class General:
     @commands.command()
     async def contact(self, ctx, *, msg):
         "Contact the bot owner through the bot."
-        app = await self.bot.application_info()
-        owner = app.owner
+        owner = self.bot.owner
         embed = discord.Embed(title='Sent by {0} ({0.id})'.format(ctx.author), description = msg)
         await owner.send('`contact` command used.', embed = embed)
 
@@ -251,8 +250,7 @@ class General:
         for guild in self.bot.guilds:
             channels += len(guild.text_channels) + len(guild.voice_channels)
         members = len(self.bot.users)
-        app = await self.bot.application_info()
-        owner = app.owner
+        owner = self.bot.owner
         author = ctx.author
         uptime_time = self.get_bot_uptime()
         if self.bot.user.id == 458607948755763200:
