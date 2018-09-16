@@ -141,11 +141,11 @@ class General:
         embed.add_field(name='Created at', value=guild.created_at.strftime('%d.%m.%Y %H:%M'))
         embed.add_field(name='Categories', value=len(guild.categories))
         embed.add_field(name='Region', value=server_region)
-        embed.add_field(name='Roles (' + str(len(guild.roles)) + ')', value=roles_list)
-        embed.add_field(name='Features (' + str(len(guild.features)) + ')', value=feats)
+        embed.add_field(name=f'Roles ({len(guild.roles)})', value=roles_list)
+        embed.add_field(name=f'Features ({len(guild.features)})', value=feats)
         embed.add_field(name='Verification Level', value=verif_lvl)
         embed.add_field(name='Content Filter', value=content_fiter)
-        embed.add_field(name='Emojis (' + str(len(guild.emojis)) + ')', value=emotes_list)
+        embed.add_field(name=f'Emojis ({len(guild.emojis)})', value=emotes_list)
         await ctx.send(embed=embed)
 
     @commands.command()
@@ -173,7 +173,7 @@ class General:
         t1 = time.perf_counter()
         await ctx.channel.trigger_typing()
         t2 = time.perf_counter()
-        thedata = f'🏓 **Pong.**\nTime: {str(round((t2 - t1) * 1000))}ms'
+        thedata = f'🏓 **Pong.**\nTime: {round((t2 - t1) * 1000)}ms'
         if ctx.guild:
             embed_color = ctx.guild.me.color
         else:
@@ -186,9 +186,8 @@ class General:
         "User's avatar."
         author = ctx.author
         user = user or author
-        response = f"{user}"
         embed = discord.Embed(color=ctx.guild.me.color if ctx.guild else 16753920)
-        embed.set_author(name=response)
+        embed.set_author(name=user)
         embed.set_image(url=user.avatar_url.replace('.webp', '.png').replace('size=1024', 'size=2048'))
         await ctx.send(embed=embed)
 
