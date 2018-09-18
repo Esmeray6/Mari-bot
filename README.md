@@ -15,7 +15,9 @@
 Time to install MongoDB!
 
 4.1 Follow [this](https://docs.mongodb.com/manual/tutorial/install-mongodb-enterprise-on-windows/#install-mdb-edition) guide if your OS is Windows.
+
 4.2 Click [this](https://docs.mongodb.com/manual/administration/install-enterprise-linux/) and choose your distribution if your OS is Linux and follow the guide.
+
 4.3 Follow [this](https://docs.mongodb.com/manual/tutorial/install-mongodb-enterprise-on-os-x/) guide if your OS is macOS.
 
 5. *Elevator waiting music here*.
