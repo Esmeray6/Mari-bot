@@ -7,7 +7,7 @@ class Mod:
 
     @commands.command()
     @commands.guild_only()
-    @commands.has_permissions(manage_guild=True)
+    @commands.has_permissions(administrator=True)
     async def setprefix(self, ctx, *, prefix = None):
         info = self.bot.db.prefixes.find_one({'guild_id': ctx.guild.id})
         if not prefix:
