@@ -2,6 +2,7 @@ import discord
 from discord.ext import commands
 #import aiohttp
 import random
+from cogs.utils import converters
 
 class Fun:
     def __init__(self, bot):
@@ -14,7 +15,7 @@ class Fun:
 
     @commands.command()
     @commands.guild_only()
-    async def hug(self, ctx, *, user: discord.Member = None):
+    async def hug(self, ctx, *, user: converters.Member = None):
         'Hug your waifu!'
         author = ctx.author
         hug = '**{} hugged {}!**'
@@ -47,7 +48,7 @@ class Fun:
 
     @commands.command()
     @commands.guild_only()
-    async def kiss(self, ctx, *, user: discord.Member = None):
+    async def kiss(self, ctx, *, user: converters.Member = None):
         'Kiss your waifu!'
         author = ctx.author
         kiss = '**{} kissed {}**'
@@ -94,7 +95,7 @@ class Fun:
 
     @commands.command()
     @commands.guild_only()
-    async def slap(self, ctx, *, user: discord.Member = None):
+    async def slap(self, ctx, *, user: converters.Member = None):
         'Slap your senpai/waifu!'
         author = ctx.author
         slap = '**{} got slapped by {}**'
