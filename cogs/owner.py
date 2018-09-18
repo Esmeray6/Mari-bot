@@ -106,7 +106,7 @@ class Owner:
 
     @commands.command()
     @commands.is_owner()
-    async def hiddeninfo(self, ctx, user_id: int=None):
+    async def hiddeninfo(self, ctx, user_id: int = None):
         "Get user info through user ID."
         if not user_id:
             user_id = ctx.author.id

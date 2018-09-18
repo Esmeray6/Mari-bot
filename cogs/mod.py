@@ -1,5 +1,6 @@
 import discord
 from discord.ext import commands
+from cogs.utils import converters
 
 class Mod:
     def __init__(self, bot):
@@ -33,7 +34,7 @@ class Mod:
     @commands.guild_only()
     @commands.has_permissions(manage_roles=True)
     @commands.bot_has_permissions(manage_roles=True)
-    async def mentionrole(self, ctx, *, role: discord.Role):
+    async def mentionrole(self, ctx, *, role: converters.Role):
         """Mention the role through the bot.
         If the role is not mentionable, bot will make it mentionable for a second."""
         if role > ctx.guild.me.top_role:
@@ -120,7 +121,7 @@ class Mod:
     @commands.command()
     @commands.guild_only()
     @commands.bot_has_permissions(manage_channels=True)
-    async def unmute(self, ctx, member: discord.Member, *, reason = None):
+    async def unmute(self, ctx, member: converters.Member, *, reason = None):
         """Mute the user in voice and text channels."""
         if not ctx.author.guild_permissions.mute_members:
             await ctx.send("You are missing following permissions:\nMute Members") # Because @commands.has_permissions() returns channel permissions or something.
@@ -155,7 +156,7 @@ class Mod:
     @commands.command()
     @commands.guild_only()
     @commands.bot_has_permissions(manage_channels=True)
-    async def mute(self, ctx, member: discord.Member, *, reason = None):
+    async def mute(self, ctx, member: converters.Member, *, reason = None):
         """Mute the user in voice and text channels."""
         if not ctx.author.guild_permissions.mute_members:
             await ctx.send("You are missing following permissions:\nMute Members") # Because @commands.has_permissions() returns channel permissions or something.
@@ -195,7 +196,7 @@ class Mod:
     @commands.guild_only()
     @commands.has_permissions(kick_members=True)
     @commands.bot_has_permissions(kick_members=True)
-    async def kick(self, ctx, member: discord.Member, *, reason = None):
+    async def kick(self, ctx, member: converters.Member, *, reason = None):
         """Kick specified user from the server"""
         if member == ctx.author:
             await ctx.send(f"You are not allowed to kick {ctx.author.mention}.")
@@ -230,7 +231,7 @@ class Mod:
         if days.isdigit():
             days = int(days)
             try:
-                member = await commands.MemberConverter().convert(ctx, member)
+                member = await converters.Member().convert(ctx, member)
             except commands.CommandError:
                 await ctx.send("No member found.")
             reason = reason or "Reason was not specified."
@@ -238,7 +239,7 @@ class Mod:
             await ctx.send(f"Banned {member}.")
         else:
             try:
-                days = await commands.MemberConverter().convert(ctx, days)
+                days = await converters.Member().convert(ctx, days)
                 member = days
                 reason = reason or "Reason was not specified."
                 await member.ban(delete_message_days=1, reason=f"{reason} -{ctx.author}")

@@ -10,6 +10,7 @@ import urllib.parse
 import re
 import aiohttp
 import json
+from cogs.utils import converters
 
 class General:
     def __init__(self, bot):
@@ -182,7 +183,7 @@ class General:
         await ctx.send(embed=data)
 
     @commands.command(aliases=['av'])
-    async def avatar(self, ctx, *, user: discord.User = None):
+    async def avatar(self, ctx, *, user: converters.User = None):
         "User's avatar."
         author = ctx.author
         user = user or author
@@ -192,7 +193,7 @@ class General:
         await ctx.send(embed=embed)
 
     @commands.command()
-    async def roles(self, ctx, *, user: discord.Member = None):
+    async def roles(self, ctx, *, user: converters.Member = None):
         "Check the user's roles. Provide no arguments to check your roles."
         user = user or ctx.author
         desc = '\n'.join((r.name for r in user.roles if r.name != '@everyone'))
@@ -212,7 +213,7 @@ class General:
 
     @commands.command(aliases=['roleperms', 'role_permissions', 'rolepermissions']) # WHY SO MANY ALIASES
     @commands.guild_only()
-    async def role_perms(self, ctx, * , role: discord.Role):
+    async def role_perms(self, ctx, * , role: converters.Role):
         "Get role permissions."
         s = []
         for perm, value in role.permissions:
