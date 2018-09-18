@@ -6,20 +6,26 @@ import traceback
 import sys
 import json
 from typing import Iterable, List
+from pymongo import MongoClient
 
 path = 'settings.json'
 cogs_path = 'cog_settings.json'
 
-# async def get_prefix(bot, message):
-#     if message.guild:
-#         return commands.when_mentioned_or('*')(bot, message)
-#     else:
-#         return commands.when_mentioned_or('.')(bot, message)
+async def get_prefix(bot, message):
+    if message.guild:
+        try:
+            return commands.when_mentioned_or(bot.prefixes[message.guild.id])(bot, message)
+        except KeyError:
+            return commands.when_mentioned_or('*')(bot, message)
+    else:
+        return commands.when_mentioned_or('*')(bot, message)
 
-# bot = commands.Bot(command_prefix=get_prefix)
-bot = commands.Bot(command_prefix=commands.when_mentioned_or('*'))
+bot = commands.Bot(command_prefix=get_prefix)
+#bot = commands.Bot(command_prefix=commands.when_mentioned_or('*'))
 bot.remove_command('help')
 bot.uptime = datetime.datetime.utcnow()
+conn = MongoClient()
+bot.db = conn.mari
 
 initial_extensions = json.load(open(cogs_path, 'r'))["enabled_cogs"]
 for extension in initial_extensions:
@@ -97,6 +103,10 @@ async def on_ready():
     status = f'*help or @{bot.user} help'
     bot.owner = (await bot.application_info()).owner
     await bot.change_presence(activity=discord.Game(status))
+    bot.prefixes = {}
+    if bot.db.prefixes.find_one():
+        for data in bot.db.prefixes.find():
+            bot.prefixes[data['guild_id']] = data['prefix']
 
 @bot.event
 async def on_message(message):
@@ -104,7 +114,11 @@ async def on_message(message):
         return
     else:
         if message.content == bot.user.mention:
-            prefixes = f"{message.author.mention} My prefix is `@{bot.user}` or `*`!"
+            try:
+                prefix = bot.prefixes[message.guild.id]
+            except KeyError:
+                prefix = "*"
+            prefixes = f"{message.author.mention} My global prefix is `@{bot.user}`. This server prefix is `{prefix}`!"
             await message.channel.send(prefixes)
         else:
             await bot.process_commands(message)
@@ -112,9 +126,11 @@ async def on_message(message):
 with open(path, 'r') as settings:
     sets = json.load(settings)
     token = sets["token"]
-    if not token:
-        print("-----\n"
-              "You don't have bot token setup in settings.json!\n"
-              "-----\n")
-    else:
-        bot.run(token, bot=True, reconnect=True)
+    settings.close()
+if not token:
+    print("-----\n"
+          "You don't have bot token setup in settings.json!\n"
+          "-----\n")
+else:
+    bot.run(token, bot=True, reconnect=True)
+    bot.db.close()

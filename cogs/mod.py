@@ -5,6 +5,30 @@ class Mod:
     def __init__(self, bot):
         self.bot = bot
 
+    @commands.command()
+    @commands.guild_only()
+    @commands.has_permissions(administrator=True)
+    async def setprefix(self, ctx, *, prefix = None):
+        info = self.bot.db.prefixes.find_one({'guild_id': ctx.guild.id})
+        if not prefix:
+            if info:
+                prefix = info['prefix']
+            else:
+                prefix = "*"
+            await ctx.send(f"{ctx.author.mention} Prefix for this server is `{prefix}`.")
+        else:
+            if info:
+                if prefix == info['prefix']:
+                    await ctx.send(f"{ctx.author.mention} This server current prefix is already set to `{prefix}`!")
+                else:
+                    self.bot.db.prefixes.update_one({'guild_id': ctx.guild.id}, {'$set': {'prefix': prefix}})
+                    self.bot.prefixes[ctx.guild.id] = prefix
+                    await ctx.send(f"{ctx.author.mention} Prefix has been changed from `{info['prefix']}`to `{prefix}`.")
+            else:
+                self.bot.db.prefixes.insert_one({'guild_id': ctx.guild.id, 'prefix': prefix})
+                self.bot.prefixes[ctx.guild.id] = prefix
+                await ctx.send(f"{ctx.author.mention} Prefix has been changed to `{prefix}`.")
+
     @commands.command(aliases=['menro'])
     @commands.guild_only()
     @commands.has_permissions(manage_roles=True)
