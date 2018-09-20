@@ -91,7 +91,7 @@ class Fun:
         if len(result) >= 2000:
             await ctx.send('Turns out the edited version has more than 2000 characters. Try again with a fewer amount of characters.')
         else:
-            await ctx.send((ctx.author.mention + ' ') + result)
+            await ctx.send(f"{ctx.author.mention} {result}")
 
     @commands.command()
     @commands.guild_only()
@@ -154,7 +154,7 @@ class Fun:
                 embed_color = ctx.guild.me.color
             else:
                 embed_color = 16753920
-            em = discord.Embed(description = '`' + final_result + '`', color = embed_color)
+            em = discord.Embed(description = f"`{final_result}`", color = embed_color)
             await ctx.send(ctx.author.mention, embed = em)
         else:
             await ctx.send("Not enough choices.")
