@@ -133,4 +133,4 @@ if not token:
           "-----\n")
 else:
     bot.run(token, bot=True, reconnect=True)
-    bot.db.close()
+    conn.close()
