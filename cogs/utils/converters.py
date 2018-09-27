@@ -49,13 +49,28 @@ class Member(IDConverter):
                     result = discord.utils.find(lambda m: m.display_name.lower() == argument.lower(), guild.members)
                 elif len(argument) > 5 and argument[-5] == '#':
                     result = discord.utils.find(lambda m: str(m).lower() == argument.lower(), guild.members)
+                elif len(argument) < 5:
+                    def pred(m):
+                        if m.nick is not None:
+                            return m.nick.lower() == argument.lower() or m.name.lower() == argument.lower()
+                        else:
+                            return m.name.lower() == argument.lower()
+                    return discord.utils.find(pred, guild.members)
             else:
                 for guild2 in bot.guilds:
                     if len(argument) > 5 and argument[-5] != '#':
                         result = discord.utils.find(lambda m: m.display_name.lower() == argument.lower(), guild.members)
                     elif len(argument) > 5 and argument[-5] == '#':
                         #result = _get_from_guilds(bot, 'get_member_named', argument)
-                        result = discord.utils.find(lambda m: m.display_name.lower() == argument[:-5].lower() and m.discriminator == argument[-5], guild.members)
+                        result = discord.utils.find(lambda m: str(m).lower() == argument.lower(), guild.members)
+                    elif len(argument) < 5:
+                        def pred(m):
+                            if m.nick is not None:
+                                return m.nick.lower() == argument.lower() or m.name.lower() == argument.lower()
+                            else:
+                                return m.name.lower() == argument.lower()
+                        return discord.utils.find(pred, guild.members)
+
         else:
             user_id = int(match.group(1))
             if guild:

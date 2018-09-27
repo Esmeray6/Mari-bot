@@ -219,10 +219,10 @@ class General:
         for perm, value in role.permissions:
             uhh = perm.replace('_', ' ').replace('Tts', 'TTS')
             if not value:
-                s.append(f'{uhh.title()}: ❌')
+                s.append(f'-{uhh.title()}: ❌')
             else:
-                s.append(f'{uhh.title()}: ✅')
-        await ctx.send('```\n{}\n```'.format('\n'.join(s)))
+                s.append(f'+{uhh.title()}: ✅')
+        await ctx.send('```diff\n{}\n```'.format('\n'.join(s)))
 
     def get_bot_uptime(self):
         # Courtesy of Danny
