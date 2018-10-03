@@ -128,7 +128,7 @@ class General:
         else:
             emotes_list = "None"
         if len(guild.roles) > 1:
-            roles_list = ', '.join([f'`{role.name}`' for role in guild.role_hierarchy if role.name != '@everyone'])
+            roles_list = ', '.join([f'`{role}`' for role in guild.roles[::-1] if role.name != '@everyone'])
         else:
             roles_list = "None"
         embed = discord.Embed(title='Server info', color = guild.me.color)
@@ -154,7 +154,10 @@ class General:
         "Contact the bot owner through the bot."
         owner = self.bot.owner
         embed = discord.Embed(title=f'Sent by {ctx.author} ({ctx.author.id})', description = msg)
-        await owner.send('`contact` command used.', embed = embed)
+        try:
+            await owner.send('`contact` command used.', embed = embed)
+        except discord.Forbidden:
+            await ctx.send(f"Bot owner ({owner}) disabled DMs from non-friends!")
 
     @commands.command(aliases=['8ball'])
     async def eightball(self, ctx, *, question):
