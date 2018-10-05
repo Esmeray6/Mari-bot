@@ -53,10 +53,16 @@ async def on_command_error(ctx, error):
             await ctx.send("The bot is missing following permissions:\n" + '\n'.join(perm for perm in error.missing_perms).replace('_', ' ').title())
     elif isinstance(error, commands.NoPrivateMessage):
         await ctx.author.send(f"Command `{ctx.command}` cannot be used in private messages.")
+    elif isinstance(error, commands.BadUnionArgument):
+        convs = []
+        for conv in error.converters:
+            convs.append(f"`{conv.__name__}`")
+        converts = " or ".join(convs)
+        await ctx.send(f"Parameter `{error.param.name}` in command `{ctx.invoked_with}` failed to convert into {converts}.")
     elif not isinstance(error, commands.CommandNotFound):
         print(f'Ignoring exception in command {ctx.command}:', file=sys.stderr)
         traceback.print_exception(type(error), error, error.__traceback__, file=sys.stderr)
-        await ctx.send('Ignoring exception in command `{}` - `{}: {}`'.format(ctx.command, type(error.original).__name__, str(error.original)))
+        await ctx.send('Ignoring exception in command `{}` - `{}: {}`'.format(ctx.command, type(error).__name__, str(error)))
 
 async def missing_argument(ctx) -> List[discord.Message]:
     """Send the command help message.

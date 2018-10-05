@@ -199,7 +199,7 @@ class General:
     async def roles(self, ctx, *, user: converters.Member = None):
         "Check the user's roles. Provide no arguments to check your roles."
         user = user or ctx.author
-        desc = '\n'.join((r.name for r in user.roles if r.name != '@everyone'))
+        desc = '\n'.join([r.name for r in user.roles if r.name != '@everyone'])
         if not desc:
             await ctx.send(f'{user} has no roles!')
         elif len(user.roles[1:]) >= 1:
