@@ -12,6 +12,8 @@ from enum import Enum
 from random import randint, choice
 from urllib.parse import quote_plus
 import aiohttp
+import typing
+from cogs.utils import converters
 
 class Owner:
 
@@ -20,13 +22,16 @@ class Owner:
 
     @commands.command()
     @commands.is_owner()
-    async def dm(self, ctx, user_id: int, *, text: str):
-        "DM the user through using their user ID."
-        user = await self.bot.get_user_info(user_id)
+    async def dm(self, ctx, user: typing.Union[converters.User, int], *, text):
+        "DM the user through using their user ID. If the user is stored in cache, specifying their username or username#discriminator will work."
+        if isinstance(user, discord.User):
+            pass
+        elif isinstance(user, int):
+            user = await self.bot.get_user_info(user_id)
         owner = self.bot.owner
         embed = discord.Embed(title='Sent by {0} ({0.id}'.format(owner), description=text)
         try:
-            await user.send('A message from bot owner.', embed=embed)
+            await user.send(f'A message from bot owner.', embed=embed)
         except discord.Forbidden:
             await ctx.send("{} does not allow server members to send direct messages.".format(user))
         await ctx.send("Sent the message to {}.".format(user))
