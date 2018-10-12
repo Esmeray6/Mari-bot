@@ -25,40 +25,40 @@ class General:
             "My sources say no.", "Outlook not so good.", "Very doubtful."
         ]
 
-    async def request_time(self, location): # Get API key on https://developers.google.com/maps/documentation/timezone/start
-        with open('settings.json') as file:
-            results = json.load(file)
-            key = results['GoogleAPIKey']
-            if not key:
-                return "The owner hasn't setup Google API Key."
-            file.close()
-        async with aiohttp.ClientSession() as session:
-            async with session.get(f"https://maps.googleapis.com/maps/api/geocode/json?address={location}?key={key}") as r:
-                response = await r.json()
-                resp = response["results"]
-                status = response["status"]
-                if status == 'OK' and resp != []:
-                    status = response["status"]
-                    formatted_address = resp[0]["formatted_address"]
-                    lat = resp[0]["geometry"]["location"]["lat"]
-                    lng = resp[0]["geometry"]["location"]["lng"]
-                    async with session.get(f"https://maps.googleapis.com/maps/api/timezone/json?location={lat},{lng}&timestamp={datetime.datetime.utcnow().timestamp()}&key={key}") as city_info:
-                        info = await city_info.json()
-                        daylight_saving = info["dstOffset"]
-                        offset = info["rawOffset"]
-                        time = datetime.datetime.utcnow() + datetime.timedelta(seconds=daylight_saving) + datetime.timedelta(seconds=offset)
-                        time = time.strftime('%H:%M')
-                        return f"It is currently **{time}** in **{formatted_address}**."
-                elif status == 'OVER_QUERY_LIMIT':
-                    return "Try again later."
-                elif status == 'ZERO_RESULTS':
-                    return "Unfortunately, that location does not exist."
+    # async def request_time(self, location): # Get API key on https://developers.google.com/maps/documentation/timezone/start
+    #     with open('settings.json') as file:
+    #         results = json.load(file)
+    #         key = results['GoogleAPIKey']
+    #         if not key:
+    #             return "The owner hasn't setup Google API Key."
+    #         file.close()
+    #     async with aiohttp.ClientSession() as session:
+    #         async with session.get(f"https://maps.googleapis.com/maps/api/geocode/json?address={location}?key={key}") as r:
+    #             response = await r.json()
+    #             resp = response["results"]
+    #             status = response["status"]
+    #             if status == 'OK' and resp != []:
+    #                 status = response["status"]
+    #                 formatted_address = resp[0]["formatted_address"]
+    #                 lat = resp[0]["geometry"]["location"]["lat"]
+    #                 lng = resp[0]["geometry"]["location"]["lng"]
+    #                 async with session.get(f"https://maps.googleapis.com/maps/api/timezone/json?location={lat},{lng}&timestamp={datetime.datetime.utcnow().timestamp()}&key={key}") as city_info:
+    #                     info = await city_info.json()
+    #                     daylight_saving = info["dstOffset"]
+    #                     offset = info["rawOffset"]
+    #                     time = datetime.datetime.utcnow() + datetime.timedelta(seconds=daylight_saving) + datetime.timedelta(seconds=offset)
+    #                     time = time.strftime('%H:%M')
+    #                     return f"It is currently **{time}** in **{formatted_address}**."
+    #             elif status == 'OVER_QUERY_LIMIT':
+    #                 return "Try again later."
+    #             elif status == 'ZERO_RESULTS':
+    #                 return "Unfortunately, that location does not exist."
 
-    @commands.command()
-    async def time(self, ctx, *, name):
-        "Show current time in specified location."
-        reply = await self.request_time(name)
-        await ctx.send(reply)
+    # @commands.command()
+    # async def time(self, ctx, *, name):
+    #     "Show current time in specified location."
+    #     reply = await self.request_time(name)
+    #     await ctx.send(reply)
 
     @commands.command(aliases=['yt'])
     async def youtube(self, ctx, *, search_terms):
