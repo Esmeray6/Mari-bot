@@ -46,7 +46,7 @@ class Member(IDConverter):
             if guild:
                 #result = guild.get_member_named(argument)
                 if len(argument) > 5 and argument[-5] != '#':
-                    result = discord.utils.find(lambda m: m.display_name.lower() == argument.lower(), guild.members)
+                    result = discord.utils.find(lambda m: m.display_name.lower() == argument.lower() or m.name.lower() == argument.lower(), guild.members)
                 elif len(argument) > 5 and argument[-5] == '#':
                     result = discord.utils.find(lambda m: str(m).lower() == argument.lower(), guild.members)
                 elif len(argument) < 5:
@@ -59,7 +59,7 @@ class Member(IDConverter):
             else:
                 for guild2 in bot.guilds:
                     if len(argument) > 5 and argument[-5] != '#':
-                        result = discord.utils.find(lambda m: m.display_name.lower() == argument.lower(), guild.members)
+                        result = discord.utils.find(lambda m: m.display_name.lower() == argument.lower() or m.name.lower() == argument.lower(), guild.members)
                     elif len(argument) > 5 and argument[-5] == '#':
                         #result = _get_from_guilds(bot, 'get_member_named', argument)
                         result = discord.utils.find(lambda m: str(m).lower() == argument.lower(), guild.members)
