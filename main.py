@@ -52,7 +52,10 @@ async def on_command_error(ctx, error):
         if error.missing_perms:
             await ctx.send("The bot is missing following permissions:\n" + '\n'.join(perm for perm in error.missing_perms).replace('_', ' ').title())
     elif isinstance(error, commands.NoPrivateMessage):
-        await ctx.author.send(f"Command `{ctx.command}` cannot be used in private messages.")
+        try:
+            await ctx.author.send(f"Command `{ctx.command}` cannot be used in private messages.")
+        except:
+            pass
     elif isinstance(error, commands.BadUnionArgument):
         convs = []
         for conv in error.converters:
