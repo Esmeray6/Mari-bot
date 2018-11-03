@@ -34,7 +34,8 @@ class Owner:
             await user.send(f'A message from bot owner.', embed=embed)
         except discord.Forbidden:
             await ctx.send("{} does not allow server members to send direct messages.".format(user))
-        await ctx.send("Sent the message to {}.".format(user))
+        else:
+            await ctx.send("Sent the message to {}.".format(user))
 
     def cleanup_code(self, content):
         """Automatically removes code blocks from the code."""
