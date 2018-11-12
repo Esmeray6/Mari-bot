@@ -105,6 +105,14 @@ class User(IDConverter):
                 result = discord.utils.find(predicate, state._users.values())
                 if result is not None:
                     return result
+            else:
+                if ctx.guild:
+                    def pred(m):
+                        if m.nick is not None:
+                            return m.nick.lower() == argument.lower() or m.name.lower() == argument.lower()
+                        else:
+                            return m.name.lower() == argument.lower()
+                    return discord.utils.find(pred, ctx.guild.members)
 
             predicate = lambda u: u.name.lower() == arg.lower()
             result = discord.utils.find(predicate, state._users.values())

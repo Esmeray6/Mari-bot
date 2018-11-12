@@ -36,6 +36,11 @@ for extension in initial_extensions:
         traceback.print_exc()
 
 @bot.event
+async def on_member_update(before, after):
+    if after.id == bot.owner.id:
+        bot.owner = bot.get_user(after.id)
+
+@bot.event
 async def on_command_error(ctx, error):
     if isinstance(error, commands.MissingRequiredArgument):
         await missing_argument(ctx)
