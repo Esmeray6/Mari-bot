@@ -37,8 +37,11 @@ for extension in initial_extensions:
 
 @bot.event
 async def on_member_update(before, after):
-    if after.id == bot.owner.id:
-        bot.owner = bot.get_user(after.id)
+    try:
+        if after.id == bot.owner.id and before.name != after.name:
+            bot.owner = bot.get_user(after.id)
+    except AttributeError:
+        pass
 
 @bot.event
 async def on_command_error(ctx, error):
