@@ -45,6 +45,8 @@ async def on_member_update(before, after):
 
 @bot.event
 async def on_command_error(ctx, error):
+    if hasattr(ctx.command, 'on_error'):
+        return
     if isinstance(error, commands.MissingRequiredArgument):
         await missing_argument(ctx)
     elif isinstance(error, commands.BadArgument):
