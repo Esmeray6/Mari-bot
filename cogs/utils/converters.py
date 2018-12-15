@@ -49,7 +49,7 @@ class Member(IDConverter):
                     result = discord.utils.find(lambda m: m.display_name.lower() == argument.lower() or m.name.lower() == argument.lower(), guild.members)
                 elif len(argument) > 5 and argument[-5] == '#':
                     result = discord.utils.find(lambda m: str(m).lower() == argument.lower(), guild.members)
-                elif len(argument) < 5:
+                elif len(argument) <= 5:
                     def pred(m):
                         if m.nick is not None:
                             return m.nick.lower() == argument.lower() or m.name.lower() == argument.lower()
@@ -63,7 +63,7 @@ class Member(IDConverter):
                     elif len(argument) > 5 and argument[-5] == '#':
                         #result = _get_from_guilds(bot, 'get_member_named', argument)
                         result = discord.utils.find(lambda m: str(m).lower() == argument.lower(), guild.members)
-                    elif len(argument) < 5:
+                    elif len(argument) <= 5:
                         def pred(m):
                             if m.nick is not None:
                                 return m.nick.lower() == argument.lower() or m.name.lower() == argument.lower()
