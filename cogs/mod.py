@@ -231,20 +231,34 @@ class Mod:
         If you specify a member in "days" argument, the member will be banned and their messages for 1 day will be deleted."""
         if days.isdigit():
             days = int(days)
-            try:
-                member = await converters.Member().convert(ctx, member)
-            except commands.CommandError:
-                await ctx.send("No member found.")
-            reason = reason or "Reason was not specified."
-            await member.ban(delete_message_days=days, reason=f"{reason} -{ctx.author}")
-            await ctx.send(f"Banned {member}.")
-        else:
-            try:
-                days = await converters.Member().convert(ctx, days)
+            user = self.bot.get_user(days)
+            if user is None:
+                try:
+                    user = await self.bot.get_user_info(days)
+                except discord.NotFound:
+                    try:
+                        member = await converters.Member().convert(ctx, member)
+                        reason = reason or "Reason was not specified."
+                        await member.ban(delete_message_days=days, reason=f"{reason} -{ctx.author}")
+                        await ctx.send(f"Banned {member}.")
+                    except commands.CommandError:
+                        await ctx.send("No member found.")
+            else:
+                days = await converters.Member().convert(ctx, str(user))
                 member = days
                 reason = reason or "Reason was not specified."
                 await member.ban(delete_message_days=1, reason=f"{reason} -{ctx.author}")
                 await ctx.send(f"Banned {member}.")
+        else:
+            try:
+                days = await converters.Member().convert(ctx, days)
+                member = days
+                if member is None:
+                    await ctx.send("No member found.")
+                else:
+                    reason = reason or "Reason was not specified."
+                    await member.ban(delete_message_days=1, reason=f"{reason} -{ctx.author}")
+                    await ctx.send(f"Banned {member}.")
             except commands.CommandError:
                 await ctx.send("No member found.")
 
