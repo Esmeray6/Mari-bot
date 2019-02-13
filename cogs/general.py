@@ -225,7 +225,8 @@ class General:
                 s.append(f'-{uhh.title()}: ❌')
             else:
                 s.append(f'+{uhh.title()}: ✅')
-        await ctx.send('```diff\n{}\n```'.format('\n'.join(s)))
+        output = '\n'.join(s)
+        await ctx.send(f'```diff\n{output}\n```')
 
     def get_bot_uptime(self):
         # Courtesy of Danny
@@ -236,11 +237,11 @@ class General:
         days, hours = divmod(hours, 24)
 
         if days:
-            fmt = '{d} days, {h} hours, {m} minutes, and {s} seconds'
+            fmt = f'{days} days, {hours} hours, {minutes} minutes, and {seconds} seconds'
         else:
-            fmt = '{h} hours, {m} minutes, and {s} seconds'
+            fmt = f'{hours} hours, {minutes} minutes, and {seconds} seconds'
 
-        return fmt.format(d=days, h=hours, m=minutes, s=seconds)
+        return fmt
 
     @commands.command()
     async def stats(self, ctx):

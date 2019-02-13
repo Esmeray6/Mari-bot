@@ -27,13 +27,14 @@ bot.uptime = datetime.datetime.utcnow()
 conn = MongoClient()
 bot.db = conn.mari
 
-initial_extensions = json.load(open(cogs_path, 'r'))["enabled_cogs"]
-for extension in initial_extensions:
-    try:
-        bot.load_extension(extension)
-    except Exception as e:
-        print(f'Failed to load extension {extension}.', file=sys.stderr)
-        traceback.print_exc()
+with open(cogs_path, 'r') as cog_settings:
+    initial_extensions = json.load(cog_settings)["enabled_cogs"]
+    for extension in initial_extensions:
+        try:
+            bot.load_extension(extension)
+        except Exception as e:
+            print(f'Failed to load extension {extension}.', file=sys.stderr)
+            traceback.print_exc()
 
 @bot.event
 async def on_member_update(before, after):
@@ -75,7 +76,7 @@ async def on_command_error(ctx, error):
     elif not isinstance(error, commands.CommandNotFound):
         print(f'Ignoring exception in command {ctx.command}:', file=sys.stderr)
         traceback.print_exception(type(error), error, error.__traceback__, file=sys.stderr)
-        await ctx.send('Ignoring exception in command `{}` - `{}: {}`'.format(ctx.command, type(error).__name__, str(error)))
+        await ctx.send(f'Ignoring exception in command `{ctx.command}` - `{type(error).__name__}: {error}`')
 
 async def missing_argument(ctx) -> List[discord.Message]:
     """Send the command help message.

@@ -29,13 +29,13 @@ class Owner:
         elif isinstance(user, int):
             user = await self.bot.get_user_info(user_id)
         owner = self.bot.owner
-        embed = discord.Embed(title='Sent by {0} ({0.id}'.format(owner), description=text)
+        embed = discord.Embed(title=f'Sent by {owner} ({owner.id}', description=text)
         try:
             await user.send(f'A message from bot owner.', embed=embed)
         except discord.Forbidden:
-            await ctx.send("{} does not allow server members to send direct messages.".format(user))
+            await ctx.send(f"{user} does not allow server members to send direct messages.")
         else:
-            await ctx.send("Sent the message to {}.".format(user))
+            await ctx.send(f"Sent the message to {user}.")
 
     def cleanup_code(self, content):
         """Automatically removes code blocks from the code."""
@@ -50,12 +50,12 @@ class Owner:
         body = self.cleanup_code(code)
         stdout = io.StringIO()
 
-        to_compile = 'async def func():\n{}'.format(textwrap.indent(body, "  "))
+        to_compile = f'async def func():\n{textwrap.indent(body, "  ")}'
 
         try:
             exec(to_compile, env)
         except Exception as e:
-            return await ctx.send('```\n{}: {}\n```'.format(e.__class__.__name__, e))
+            return await ctx.send(f'```\n{e.__class__.__name__}: {e}\n```')
 
         func = env['func']
         try:
@@ -63,28 +63,29 @@ class Owner:
                 ret = await func()
         except Exception as e:
             value = stdout.getvalue()
-            await ctx.send('```\n{}{}\n```'.format(value, traceback.format_exc()))
+            await ctx.send(f'```\n{value}{traceback.format_exc()}\n```')
         else:
             value = stdout.getvalue()
 
             result = None
             if not ret:
                 if value:
-                    result = '```\n{}\n```'.format(value)
+                    result = f'```\n{value}\n```'
                 else:
                     try:
-                        result = '```\n{}\n```'.format(repr(eval(body, env)))
+                        result = f'```\n{repr(eval(body, env))}\n```'
                     except:
                         pass
             else:
                 self._last_result = ret
-                result = '```\n{}{}\n```'.format(value, ret)
+                result = f'```\n{value}{ret}\n```'
 
             if result:
-                if len(str(result)) > 1950:
-                    await ctx.send(result[0:1950])
-                    await ctx.send(result[1951:-1]) # Feel free to fix this. I am lazy.
-
+                if len(result) > 2000:
+                    # await ctx.send(result[0:1950])
+                    # await ctx.send(result[1951:-1]) # Feel free to fix this. I am lazy.
+                    print(result)
+                    await ctx.send("Output has been displayed in the console because its length was more than 2000 characters.")
                 else:
                     await ctx.send(result)
 
@@ -125,10 +126,10 @@ class Owner:
         em.set_author(name=user)
         since_created = (now - user.created_at).days
         user_created = user.created_at.strftime("%d %b %Y %H:%M")
-        created_on = "{}\n({} days ago)".format(user_created, since_created)
+        created_on = f"{user_created}\n({since_created} days ago)"
         em.add_field(name='Joined Discord',value=created_on)
         em.set_image(url=user.avatar_url.replace('.webp', '.png'))
-        em.add_field(name='Account Type',value="User" if not user.bot else "Bot")
+        em.add_field(name='Account Type',value="User" if user.bot is Falses else "Bot")
         await ctx.send(embed=em)
 
     @commands.command(hidden=True)
@@ -136,9 +137,7 @@ class Owner:
     async def cogs(self, ctx):
         "Check currently loaded cogs."
         cogs = list(self.bot.cogs)
-        embed = discord.Embed(
-            title="{} loaded cogs".format(len(cogs)),
-            description=", ".join([cog for cog in cogs]))
+        embed = discord.Embed(title=f"{len(cogs)} loaded cogs", description=", ".join([cog for cog in cogs]))
         await ctx.send(embed=embed)
 
     @commands.group(hidden=True)
@@ -147,10 +146,10 @@ class Owner:
         if not ctx.invoked_subcommand:
             pref = '```\n'
             postf = '\n```'
-            result = ctx.command.name + ':\n'
+            result = f'{ctx.command.name}:\n'
             cmds = list(ctx.command.commands)
            # result += ' '.join(cmd.name for cmd in cmds)
-            result += '    '.join('\n    {} - {}\n'.format(c.name, c.help) for c in cmds) + '\n'
+            result += '    '.join(f'\n    {c.name} - {c.help}\n' for c in cmds) + '\n'
             await ctx.send(pref + result + postf)
 
     @cog.command(name='load', hidden=True)
