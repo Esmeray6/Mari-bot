@@ -128,8 +128,8 @@ class Owner:
         user_created = user.created_at.strftime("%d %b %Y %H:%M")
         created_on = f"{user_created}\n({since_created} days ago)"
         em.add_field(name='Joined Discord',value=created_on)
-        em.set_image(url=user.avatar_url.replace('.webp', '.png'))
-        em.add_field(name='Account Type',value="User" if user.bot is Falses else "Bot")
+        em.set_image(url=user.avatar_url.replace('.webp', '.png').replace('size=1024', 'size=2048'))
+        em.add_field(name='Account Type',value="User" if user.bot is False else "Bot")
         await ctx.send(embed=em)
 
     @commands.command(hidden=True)
