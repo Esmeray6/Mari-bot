@@ -2,7 +2,7 @@ import discord
 from discord.ext import commands
 from cogs.utils import converters
 
-class Mod:
+class Mod(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
@@ -61,12 +61,12 @@ class Mod:
         """Ban the user that is not in the current server."""
         reason = reason or "Reason was not specified."
         try:
-            user = await self.bot.get_user_info(user_id)
+            user = await self.bot.fetch_user(user_id)
         except discord.NotFound:
             await ctx.send("No user with that user ID was found.")
             return
         try:
-            ban_status = await ctx.guild.get_ban(user)
+            ban_status = await ctx.guild.fetch_ban(user)
             await ctx.send(f"{user} is banned already.")
             return
         except discord.NotFound:
@@ -88,12 +88,12 @@ class Mod:
     async def unban(self, ctx, user_id: int):
         """Unban the banned user."""
         try:
-            user = await self.bot.get_user_info(user_id)
+            user = await self.bot.fetch_user(user_id)
         except discord.NotFound:
             await ctx.send("No user with that user ID was found.")
             return
         try:
-            ban_status = await ctx.guild.get_ban(user)
+            ban_status = await ctx.guild.fetch_ban(user)
         except discord.NotFound:
             await ctx.send(f"{user} is not banned.")
             return
@@ -234,7 +234,7 @@ class Mod:
             user = self.bot.get_user(days)
             if user is None:
                 try:
-                    user = await self.bot.get_user_info(days)
+                    user = await self.bot.fetch_user(days)
                 except discord.NotFound:
                     try:
                         member = await converters.Member().convert(ctx, member)

@@ -1,7 +1,7 @@
 import discord
 from discord.ext import commands
 
-class Help:
+class Help(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
@@ -15,10 +15,10 @@ class Help:
         postfix = '\n```'
         paginator = commands.Paginator()
         if not command:
-            li = [cog[0] for cog in self.bot.cogs.items()]
+            li = [cog for cog in self.bot.cogs]
             for smth in li:
                 if smth != 'Help':
-                    s = list(self.bot.get_cog_commands(smth))
+                    s = list(self.bot.cogs[smth].get_commands())
                     if s:
                         paginator.add_line(f"{s[0].cog_name}:")
                         for c in s:
@@ -39,7 +39,7 @@ class Help:
                         result = 'That command/category/command group does not exist!'
                         await ctx.send(result)
                 else:
-                    the_cog = list(self.bot.get_cog_commands(command))
+                    the_cog = list(command.get_commands())
                     paginator.add_line(f"{the_cog[0].cog_name}:") 
                     for cmd in the_cog:
                         if not cmd.hidden:
@@ -50,7 +50,7 @@ class Help:
             else:
                 cmd = self.bot.get_command(command.replace('*', '').replace(self.bot.user.mention, ''))
                 result += f"{ctx.prefix.replace(self.bot.user.mention, f'@{self.bot.user.name}#{self.bot.user.discriminator} ')}{cmd.signature}\n\nCog: {cmd.cog_name}\n\n    {cmd.help}"
-                await ctx.send(pref + result + postfix)
+                await ctx.send(f"{pref}{result}{postfix}")
 
 def setup(bot):
     bot.add_cog(Help(bot))

@@ -15,8 +15,7 @@ import aiohttp
 import typing
 from cogs.utils import converters
 
-class Owner:
-
+class Owner(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
@@ -27,7 +26,7 @@ class Owner:
         if isinstance(user, discord.User):
             pass
         elif isinstance(user, int):
-            user = await self.bot.get_user_info(user_id)
+            user = await self.bot.fetch_user(user_id)
         owner = self.bot.owner
         embed = discord.Embed(title=f'Sent by {owner} ({owner.id}', description=text)
         try:
@@ -118,7 +117,7 @@ class Owner:
         if not user_id:
             user_id = ctx.author.id
         now = datetime.datetime.now()
-        user = await self.bot.get_user_info(user_id)
+        user = await self.bot.fetch_user(user_id)
         if ctx.guild:
             em = discord.Embed(title=user.id,color=ctx.author.color)
         else:

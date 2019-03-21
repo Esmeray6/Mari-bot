@@ -12,7 +12,7 @@ import aiohttp
 import json
 from cogs.utils import converters
 
-class General:
+class General(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
         self.ball = [
