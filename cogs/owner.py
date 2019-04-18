@@ -119,10 +119,10 @@ class Owner(commands.Cog):
         now = datetime.datetime.now()
         user = await self.bot.fetch_user(user_id)
         if ctx.guild:
-            em = discord.Embed(title=user.id,color=ctx.author.color)
+            em = discord.Embed(color=ctx.author.color)
         else:
-            em = discord.Embed(title=user.id,color=discord.Color.default())
-        em.set_author(name=user)
+            em = discord.Embed(color=discord.Color.default())
+        em.set_author(name=f"{user} ({user_id})")
         since_created = (now - user.created_at).days
         user_created = user.created_at.strftime("%d %b %Y %H:%M")
         created_on = f"{user_created}\n({since_created} days ago)"
@@ -149,34 +149,42 @@ class Owner(commands.Cog):
             cmds = list(ctx.command.commands)
            # result += ' '.join(cmd.name for cmd in cmds)
             result += '    '.join(f'\n    {c.name} - {c.help}\n' for c in cmds) + '\n'
-            await ctx.send(pref + result + postf)
+            await ctx.send(f"{pref}{result}{postf}")
 
     @cog.command(name='load', hidden=True)
     @commands.is_owner()
-    async def cog_load(self, ctx, *, cog_name: str):
+    async def _load(self, ctx, *, cog_name: str):
         "Command which loads a cog."
-        cog = 'cogs.' + cog_name.lower()
+        cog = f'cogs.{cog_name.lower()}'
 
-        self.bot.load_extension(cog)
-        await ctx.send('Done.')
+        try:
+            self.bot.load_extension(cog)
+            await ctx.send('Done.')
+        except commands.ExtensionAlreadyLoaded:
+            await ctx.send(f'Extension `{cog_name}` is already loaded.')
 
     @cog.command(name='unload', hidden=True)
     @commands.is_owner()
-    async def cog_unload(self, ctx, *, cog_name: str):
+    async def _unload(self, ctx, *, cog_name: str):
         "Command which unloads a cog."
-        cog = 'cogs.' + cog_name.lower()
+        cog = f'cogs.{cog_name.lower()}'
 
-        self.bot.unload_extension(cog)
-        await ctx.send('Done.')
+        try:
+            self.bot.unload_extension(cog)
+            await ctx.send('Done.')
+        except commands.ExtensionNotLoaded:
+            await ctx.send(f'Extension `{cog_name}` is not loaded.')
 
     @cog.command(name='reload', hidden=True)
     @commands.is_owner()
-    async def cog_reload(self, ctx, *, cog_name: str):
+    async def _reload(self, ctx, *, cog_name: str):
         "Command which reloads a cog."
-        cog = 'cogs.' + cog_name.lower()
+        cog = f'cogs.{cog_name.lower()}'
 
-        self.bot.unload_extension(cog)
-        self.bot.load_extension(cog)
+        try:
+            self.bot.unload_extension(cog)
+        except commands.ExtensionNotLoaded:
+            self.bot.load_extension(cog)
         await ctx.send('Done.')
 
 def setup(bot):
