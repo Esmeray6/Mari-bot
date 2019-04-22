@@ -5,8 +5,6 @@ import psutil
 import os
 import time
 import random
-import urllib.request
-import urllib.parse
 import re
 import aiohttp
 import json
@@ -25,49 +23,16 @@ class General(commands.Cog):
             "My sources say no.", "Outlook not so good.", "Very doubtful."
         ]
 
-    # async def request_time(self, location): # Get API key on https://developers.google.com/maps/documentation/timezone/start
-    #     with open('settings.json') as file:
-    #         results = json.load(file)
-    #         key = results['GoogleAPIKey']
-    #         if not key:
-    #             return "The owner hasn't setup Google API Key."
-    #         file.close()
-    #     async with aiohttp.ClientSession() as session:
-    #         async with session.get(f"https://maps.googleapis.com/maps/api/geocode/json?address={location}?key={key}") as r:
-    #             response = await r.json()
-    #             resp = response["results"]
-    #             status = response["status"]
-    #             if status == 'OK' and resp != []:
-    #                 status = response["status"]
-    #                 formatted_address = resp[0]["formatted_address"]
-    #                 lat = resp[0]["geometry"]["location"]["lat"]
-    #                 lng = resp[0]["geometry"]["location"]["lng"]
-    #                 async with session.get(f"https://maps.googleapis.com/maps/api/timezone/json?location={lat},{lng}&timestamp={datetime.datetime.utcnow().timestamp()}&key={key}") as city_info:
-    #                     info = await city_info.json()
-    #                     daylight_saving = info["dstOffset"]
-    #                     offset = info["rawOffset"]
-    #                     time = datetime.datetime.utcnow() + datetime.timedelta(seconds=daylight_saving) + datetime.timedelta(seconds=offset)
-    #                     time = time.strftime('%H:%M')
-    #                     return f"It is currently **{time}** in **{formatted_address}**."
-    #             elif status == 'OVER_QUERY_LIMIT':
-    #                 return "Try again later."
-    #             elif status == 'ZERO_RESULTS':
-    #                 return "Unfortunately, that location does not exist."
-
-    # @commands.command()
-    # async def time(self, ctx, *, name):
-    #     "Show current time in specified location."
-    #     reply = await self.request_time(name)
-    #     await ctx.send(reply)
-
     @commands.command(aliases=['yt'])
     async def youtube(self, ctx, *, search_terms):
         "Find YouTube video with specified title."
         try:
-            query_string = urllib.parse.urlencode({"search_query" : search_terms})
-            html_content = urllib.request.urlopen(f"http://www.youtube.com/results?{query_string}")
-            search_results = re.findall(r'href=\"\/watch\?v=(.{11})', html_content.read().decode())
-            await ctx.send(f"http://www.youtube.com/watch?v={search_results[0]}")
+            query = {'search_query': search_terms}
+            async with aiohttp.ClientSession() as session:
+                async with session.get(f"http://www.youtube.com/results?", params=query) as req:
+                    content = await req.read()
+                    search_result = re.findall(r'href=\"\/watch\?v=(.{11})', content.decode())
+            await ctx.send(f"http://www.youtube.com/watch?v={search_result[0]}")
         except IndexError:
             await ctx.send("No video was found.")
 
@@ -157,7 +122,7 @@ class General(commands.Cog):
         try:
             await owner.send('`contact` command used.', embed = embed)
         except discord.Forbidden:
-            await ctx.send(f"Bot owner ({owner}) disabled DMs from non-friends!")
+            await ctx.send(f"Bot owner ({owner}) disabled DMs from non-friends.")
 
     @commands.command(aliases=['8ball'])
     async def eightball(self, ctx, *, question):
@@ -167,9 +132,9 @@ class General(commands.Cog):
             embed_color = ctx.guild.me.color
         else:
             embed_color = 16753920
-        em = discord.Embed(description = question, title = '🎱 8ball', color = embed_color)
-        em.add_field(name = 'Answer', value = result)
-        await ctx.send(ctx.author.mention, embed = em)
+        em = discord.Embed(description=question, title='🎱 8ball', color=embed_color)
+        em.add_field(name='Answer', value=result)
+        await ctx.send(ctx.author.mention, embed=em)
 
     @commands.command(aliases=['pong'])
     async def ping(self, ctx):
@@ -203,11 +168,11 @@ class General(commands.Cog):
         desc = '\n'.join([r.name for r in user.roles if r.name != '@everyone'])
         if not desc:
             await ctx.send(f'{user} has no roles!')
-        elif len(user.roles[1:]) >= 1:
+        else:
             embed = discord.Embed(
                 title=f"{user} roles",
                 description=desc,
-                colour=user.colour)
+                colour=user.color)
             await ctx.send(ctx.author.mention, embed=embed)
 
     @commands.command()
@@ -221,11 +186,11 @@ class General(commands.Cog):
         "Get role permissions."
         s = []
         for perm, value in role.permissions:
-            uhh = perm.replace('_', ' ').replace('Tts', 'TTS')
+            perm_name = perm.replace('_', ' ').replace('Tts', 'TTS')
             if not value:
-                s.append(f'-{uhh.title()}: ❌')
+                s.append(f'-{perm_name.title()}: ❌')
             else:
-                s.append(f'+{uhh.title()}: ✅')
+                s.append(f'+{perm_name.title()}: ✅')
         output = '\n'.join(s)
         await ctx.send(f'```diff\n{output}\n```')
 

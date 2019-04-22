@@ -40,7 +40,7 @@ class Mod(commands.Cog):
         If the role is not mentionable, bot will make it mentionable for a second."""
         if role > ctx.guild.me.top_role:
             await ctx.send(f"Role **{role}** is higher than my highest role. I can't let you use this command.")
-        elif role == ctx.guild.me.top_role:
+        elif role is ctx.guild.me.top_role:
             await ctx.send(f"Role **{role}** is my highest role. I can't let you use this command.")
         else:
             if role.name == "@everyone":
@@ -131,19 +131,19 @@ class Mod(commands.Cog):
             return
         reason = reason or "Reason was not specified."
         chans = 0
-        if member == ctx.author:
+        if member is ctx.author:
             await ctx.send(f"You are not allowed to unmute {ctx.author.mention}.")
             return
         if ctx.author.top_role < member.top_role:
             await ctx.send("Your highest role is lower than the member's one. I can't let you unmute them.")
             return
-        elif ctx.author.top_role == member.top_role:
+        elif ctx.author.top_role is member.top_role:
             await ctx.send("Your highest role is the same as the member's one. I can't let you unmute them.")
             return
         elif ctx.guild.me.top_role < member.top_role:
             await ctx.send("My highest role is lower than the member's one. I can't unmute them.")
             return
-        elif ctx.guild.me.top_role == member.top_role:
+        elif ctx.guild.me.top_role is member.top_role:
             await ctx.send("My highest role is the same as the member's one. I can't unmute them.")
             return
         for ch in ctx.guild.channels:
@@ -160,25 +160,25 @@ class Mod(commands.Cog):
     @commands.guild_only()
     @commands.bot_has_permissions(manage_channels=True)
     async def mute(self, ctx, member: converters.Member, *, reason = None):
-        """Mute the user in voice and text channels."""
+        """Mute a user in voice and text channels."""
         if not ctx.author.guild_permissions.mute_members:
-            await ctx.send("You are missing following permissions:\nMute Members") # Because @commands.has_permissions() returns channel permissions or something.
+            await ctx.send("You are missing following permissions:\nMute Members") # Because @commands.has_permissions() returns channel permissions.
             return
         reason = reason or "Reason was not specified."
         chans = 0
-        if member == ctx.author:
+        if member is ctx.author:
             await ctx.send(f"You are not allowed to mute {ctx.author.mention}.")
             return
         if ctx.author.top_role < member.top_role:
             await ctx.send("Your highest role is lower than the member's one. I can't let you mute them.")
             return
-        elif ctx.author.top_role == member.top_role:
+        elif ctx.author.top_role is member.top_role:
             await ctx.send("Your highest role is the same as the member's one. I can't let you mute them.")
             return
         elif ctx.guild.me.top_role < member.top_role:
             await ctx.send("My highest role is lower than the member's one. I can't mute them.")
             return
-        elif ctx.guild.me.top_role == member.top_role:
+        elif ctx.guild.me.top_role is member.top_role:
             await ctx.send("My highest role is the same as the member's one. I can't mute them.")
             return
         for ch in ctx.guild.channels:
@@ -201,19 +201,19 @@ class Mod(commands.Cog):
     @commands.bot_has_permissions(kick_members=True)
     async def kick(self, ctx, member: converters.Member, *, reason = None):
         """Kick specified user from the server"""
-        if member == ctx.author:
+        if member is ctx.author:
             await ctx.send(f"You are not allowed to kick {ctx.author.mention}.")
             return
         if ctx.author.top_role < member.top_role:
             await ctx.send("Your highest role is lower than the member's one. I can't let you kick them.")
             return
-        elif ctx.author.top_role == member.top_role:
+        elif ctx.author.top_role is member.top_role:
             await ctx.send("Your highest role is the same as the member's one. I can't let you kick them.")
             return
         elif ctx.guild.me.top_role < member.top_role:
             await ctx.send("My highest role is lower than the member's one. I can't kick them.")
             return
-        elif ctx.guild.me.top_role == member.top_role:
+        elif ctx.guild.me.top_role is member.top_role:
             await ctx.send("My highest role is the same as the member's one. I can't kick them.")
             return
         reason = reason or "Reason was not specified."
