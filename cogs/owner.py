@@ -114,7 +114,7 @@ class Owner(commands.Cog):
     @commands.command()
     @commands.is_owner()
     async def hiddeninfo(self, ctx, user_id: int = None):
-        "Get user info through user ID."
+        """Get user info through user ID."""
         if not user_id or user_id == ctx.author.id:
             user_id = ctx.author.id
             user = ctx.author
@@ -138,14 +138,14 @@ class Owner(commands.Cog):
     @commands.command(hidden=True)
     @commands.is_owner()
     async def cogs(self, ctx):
-        "Check currently loaded cogs."
+        """Check currently loaded cogs."""
         cogs = list(self.bot.cogs)
         embed = discord.Embed(title=f"{len(cogs)} loaded cogs", description=", ".join([cog for cog in cogs]))
         await ctx.send(embed=embed)
 
     @commands.group(hidden=True)
     async def cog(self, ctx):
-        "Manage cogs."
+        """Manage cogs."""
         if not ctx.invoked_subcommand:
             pref = '```\n'
             postf = '\n```'
@@ -158,7 +158,7 @@ class Owner(commands.Cog):
     @cog.command(name='load', hidden=True)
     @commands.is_owner()
     async def _load(self, ctx, *, cog_name: str):
-        "Command which loads a cog."
+        """Command to load a cog."""
         cog = f'cogs.{cog_name.lower()}'
 
         try:
@@ -170,7 +170,7 @@ class Owner(commands.Cog):
     @cog.command(name='unload', hidden=True)
     @commands.is_owner()
     async def _unload(self, ctx, *, cog_name: str):
-        "Command which unloads a cog."
+        """Command to unload a cog."""
         cog = f'cogs.{cog_name.lower()}'
 
         try:
@@ -182,7 +182,7 @@ class Owner(commands.Cog):
     @cog.command(name='reload', hidden=True)
     @commands.is_owner()
     async def _reload(self, ctx, *, cog_name: str):
-        "Command which reloads a cog."
+        """Command to reload a cog."""
         cog = f'cogs.{cog_name.lower()}'
 
         try:
