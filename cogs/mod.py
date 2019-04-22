@@ -61,7 +61,9 @@ class Mod(commands.Cog):
         """Ban the user that is not in the current server."""
         reason = reason or "Reason was not specified."
         try:
-            user = await self.bot.fetch_user(user_id)
+            user = self.bot.get_user(user_id)
+            if user is None:
+                user = await self.bot.fetch_user(user_id)
         except discord.NotFound:
             await ctx.send("No user with that user ID was found.")
             return

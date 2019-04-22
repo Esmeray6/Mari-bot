@@ -192,7 +192,8 @@ class General(commands.Cog):
         user = user or author
         embed = discord.Embed(color=ctx.guild.me.color if ctx.guild else 16753920)
         embed.set_author(name=user)
-        embed.set_image(url=user.avatar_url.replace('.webp', '.png').replace('size=1024', 'size=2048'))
+        avatar_url = str(user.avatar_url)
+        embed.set_image(url=avatar_url.replace('.webp', '.png').replace('size=1024', 'size=2048'))
         await ctx.send(embed=embed)
 
     @commands.command()

@@ -15,6 +15,7 @@ import aiohttp
 import typing
 from cogs.utils import converters
 
+
 class Owner(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
@@ -26,7 +27,9 @@ class Owner(commands.Cog):
         if isinstance(user, discord.User):
             pass
         elif isinstance(user, int):
-            user = await self.bot.fetch_user(user_id)
+            user = self.bot.get_user(user_id)
+            if not user:
+                return await ctx.send(f"User with ID {user} was not found.")
         owner = self.bot.owner
         embed = discord.Embed(title=f'Sent by {owner} ({owner.id}', description=text)
         try:
@@ -81,8 +84,6 @@ class Owner(commands.Cog):
 
             if result:
                 if len(result) > 2000:
-                    # await ctx.send(result[0:1950])
-                    # await ctx.send(result[1951:-1]) # Feel free to fix this. I am lazy.
                     print(result)
                     await ctx.send("Output has been displayed in the console because its length was more than 2000 characters.")
                 else:
@@ -183,6 +184,7 @@ class Owner(commands.Cog):
 
         try:
             self.bot.unload_extension(cog)
+            self.bot.load_extension(cog)
         except commands.ExtensionNotLoaded:
             self.bot.load_extension(cog)
         await ctx.send('Done.')
