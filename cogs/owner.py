@@ -115,10 +115,12 @@ class Owner(commands.Cog):
     @commands.is_owner()
     async def hiddeninfo(self, ctx, user_id: int = None):
         "Get user info through user ID."
-        if not user_id:
+        if not user_id or user_id == ctx.author.id:
             user_id = ctx.author.id
+            user = ctx.author
+        else:
+            user = await self.bot.fetch_user(user_id)
         now = datetime.datetime.now()
-        user = await self.bot.fetch_user(user_id)
         if ctx.guild:
             em = discord.Embed(color=ctx.author.color)
         else:
@@ -128,8 +130,9 @@ class Owner(commands.Cog):
         user_created = user.created_at.strftime("%d %b %Y %H:%M")
         created_on = f"{user_created}\n({since_created} days ago)"
         em.add_field(name='Joined Discord',value=created_on)
-        em.set_image(url=user.avatar_url.replace('.webp', '.png').replace('size=1024', 'size=2048'))
-        em.add_field(name='Account Type',value="User" if user.bot is False else "Bot")
+        avatar_url = str(user.avatar_url)
+        em.set_image(url=avatar_url.replace('.webp', '.png').replace('size=1024', 'size=2048'))
+        em.add_field(name='Account Type',value="User" if not user.bot else "Bot")
         await ctx.send(embed=em)
 
     @commands.command(hidden=True)
