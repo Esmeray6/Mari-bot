@@ -23,7 +23,7 @@ class Owner(commands.Cog):
     @commands.command()
     @commands.is_owner()
     async def dm(self, ctx, user: typing.Union[converters.User, int], *, text):
-        "DM the user through using their user ID. If the user is stored in cache, specifying their username or username#discriminator will work."
+        "DM the user through using their user ID."
         if isinstance(user, discord.User):
             pass
         elif isinstance(user, int):
