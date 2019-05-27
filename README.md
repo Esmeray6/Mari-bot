@@ -1,6 +1,6 @@
 1. First of all, create a Discord application and turn it into a bot.
 
-![bot_acc](https://i.imgur.com/KVcRxVm.gif)
+![bot_acc](https://i.imgur.com/vjoipwX.gif)
 
 2. Copy the bot token.
 
