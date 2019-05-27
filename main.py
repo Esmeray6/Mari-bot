@@ -5,7 +5,7 @@ import datetime
 import traceback
 import sys
 import json
-from typing import Iterable, List
+from typing import List
 from pymongo import MongoClient
 
 path = 'settings.json'
@@ -93,7 +93,7 @@ async def missing_argument(ctx) -> List[discord.Message]:
     msgs = await f.format_help_for(ctx, command)
     for msg in msgs:
         m = await destination.send(f"You are missing the required argument.\n{msg}")
-    ret.append(m)
+        ret.append(m)
     return ret
 
 async def bad_argument(ctx) -> List[discord.Message]:
@@ -111,7 +111,7 @@ async def bad_argument(ctx) -> List[discord.Message]:
     msgs = await f.format_help_for(ctx, command)
     for msg in msgs:
         m = await destination.send(f"Your argument is invalid.\n{msg}")
-    ret.append(m)
+        ret.append(m)
     return ret
 
 #Both missing_argument() and bad_argument() are edited versions of send_help() that is used in Red bot.
