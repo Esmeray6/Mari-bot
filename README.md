@@ -4,7 +4,7 @@
 
 2. Copy the bot token.
 
-![copy_token](https://i.imgur.com/NIPJj2T.gif)
+![copy_token](https://i.imgur.com/3vjTgcI.gif)
 
 3. Paste the token into settings.json between `""` and save the file either by pressing Ctrl + S or clicking on `File` and pressing `Save`.
 
