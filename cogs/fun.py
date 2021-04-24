@@ -142,8 +142,8 @@ class Fun(commands.Cog):
     @commands.command(aliases=["wifey", "animegrill"])
     @commands.bot_has_permissions(embed_links=True)
     async def waifu(self, ctx : commands.Context):
-        try:
-            async with aiohttp.ClientSession() as cs:
+        async with aiohttp.ClientSession() as cs:
+            try:
                 async with cs.get("https://waifu.pics/sfw/waifu") as r:
                     embed = discord.Embed(
                         description="Here's your waifu ;)",
@@ -152,8 +152,8 @@ class Fun(commands.Cog):
                     embed.set_image((await r.json())['url'])
                     embed.set_footer(text=f"Image requested by {ctx.author}")
                     await ctx.send(embed=embed)
-        except discord.HTTPException as e:
-            await ctx.send(e)
+            except discord.HTTPException as e:
+                await ctx.send(e)
 
     @commands.command()
     async def nicememe(self, ctx):
